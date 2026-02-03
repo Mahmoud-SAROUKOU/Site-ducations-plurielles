@@ -1,0 +1,61 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "title": "Les bases de l'éducation bienveillante",
+      "category": "parentalite",
+      "excerpt": "Découvrez les principes fondamentaux de l'éducation bienveillante et comment les appliquer au quotidien.",
+      "content": "L'éducation bienveillante repose sur le respect mutuel, l'écoute active et la communication non-violente...",
+      "author": "Marie Dupont",
+      "image": "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=500",
+      "published": true,
+      "createdAt": "2026-01-22T18:58:07.118Z"
+    },
+    {
+      "id": 2,
+      "title": "Droits de l'enfant : ce qu'il faut savoir",
+      "category": "droits",
+      "excerpt": "Un guide complet sur les droits fondamentaux de l'enfant et leur application.",
+      "content": "Les droits de l'enfant sont universels et inaliénables. Chaque enfant a droit à la protection, l'éducation...",
+      "author": "Jean Martin",
+      "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500",
+      "published": true,
+      "createdAt": "2026-01-22T18:58:07.118Z"
+    }
+  ],
+  "ads": [
+    {
+      "id": 1,
+      "icon": "📢",
+      "message": "Nouvel article : Comment écouter les émotions de votre enfant",
+      "order": 1,
+      "active": true,
+      "createdAt": "2026-01-22T18:58:07.118Z"
+    },
+    {
+      "id": 2,
+      "icon": "📢",
+      "message": "Atelier en ligne ce samedi : Éducation bienveillante en milieu africain",
+      "order": 2,
+      "active": true,
+      "createdAt": "2026-01-22T18:58:07.118Z"
+    },
+    {
+      "id": 3,
+      "icon": "📢",
+      "message": "Témoignage : Une mère raconte son cheminement vers une parentalité sans violence",
+      "order": 3,
+      "active": true,
+      "createdAt": "2026-01-22T18:58:07.118Z"
+    },
+    {
+      "id": 4,
+      "icon": "📢",
+      "message": "Ressource gratuite : Guide de prévention des violences éducatives ordinaires",
+      "order": 4,
+      "active": true,
+      "createdAt": "2026-01-22T18:58:07.118Z"
+    }
+  ],
+  "lastUpdate": "2026-01-22T19:30:23.339Z"
+}

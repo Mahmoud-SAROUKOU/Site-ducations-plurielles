@@ -1,0 +1,67 @@
+# Configuration pour Educations Plurielles
+# Single Page Application (SPA)
+
+# Activer le moteur de réécriture
+RewriteEngine On
+
+# Forcer HTTPS (optionnel mais recommandé)
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Rediriger www vers non-www (ou inverse selon préférence)
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Gestion des fichiers statiques (images, CSS, JS)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Toutes les autres requêtes vers index.html (SPA)
+RewriteRule ^ index.html [L]
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Cache des fichiers statiques
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+</IfModule>
+
+# Sécurité
+<IfModule mod_headers.c>
+    # Prévenir le clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Prévenir le MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # XSS Protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "no-referrer-when-downgrade"
+</IfModule>
+
+# Bloquer l'accès aux fichiers sensibles
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Type MIME correct
+AddType text/css .css
+AddType application/javascript .js
+AddType image/svg+xml .svg
+AddType video/mp4 .mp4

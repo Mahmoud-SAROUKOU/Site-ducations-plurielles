@@ -1,0 +1,79 @@
+# ═══════════════════════════════════════════════════════════════
+# GITIGNORE - Éducations Plurielles
+# ═══════════════════════════════════════════════════════════════
+
+# ===== FICHIERS SENSIBLES (Ne JAMAIS commit) =====
+.env
+.admin-credentials.txt
+admin/database.sqlite
+admin/database.sqlite-journal
+admin/emails.log
+admin/*.log
+
+# ===== CONFIGURATION LOCALE =====
+*.local
+config.local.php
+.DS_Store
+Thumbs.db
+
+# ===== UPLOADS & MÉDIAS =====
+uploads/images/*
+!uploads/images/.gitkeep
+uploads/temp/*
+!uploads/temp/.gitkeep
+
+# ===== DEPENDENCIES =====
+vendor/
+node_modules/
+composer.lock
+package-lock.json
+
+# ===== IDE & EDITORS =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+
+# ===== SYSTÈME =====
+*.tmp
+*.bak
+*.cache
+.htpasswd
+
+# ===== LOGS =====
+*.log
+logs/
+error.log
+debug.log
+
+# ===== WINDOWS =====
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ===== MAC =====
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ===== BACKUP FILES =====
+*-backup.html
+*-old.php
+*.backup
+
+# ===== DATABASE BACKUPS =====
+*.sql
+backups/
+
+# ===== COMPOSER & NPM =====
+composer.phar
+/vendor/
+/node_modules/
+
+# ===== TEST FILES (optionnel) =====
+test-*.html
+test-*.php
+*-test.js

@@ -1,0 +1,343 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║           🚀 DÉPLOIEMENT HOSTINGER - GUIDE RAPIDE (30 min) 🚀             ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════════
+ÉTAPE 1: PRÉPARER LES FICHIERS (5 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ CHECKLIST FICHIERS À UPLOADER:
+  □ admin.html (votre interface admin)
+  □ index.html (votre site public)
+  □ Dossier admin/ complet (avec tous les PHP)
+  □ Dossier images/
+  □ Dossier videos/
+  □ Tous les fichiers CSS/JS
+  □ manifest.json
+  □ robots.txt
+
+⚠️ NE PAS UPLOADER:
+  ✗ admin/.env (vous le créerez directement sur Hostinger)
+  ✗ test-compatibilite.html (tests uniquement)
+  ✗ GUIDE-*.txt (documentation)
+
+═══════════════════════════════════════════════════════════════════════════════
+ÉTAPE 2: CONNEXION HOSTINGER (2 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Allez sur: https://www.hostinger.fr
+2. Connectez-vous à votre compte
+3. Cliquez sur "Hébergement" dans le menu
+4. Sélectionnez votre plan d'hébergement
+
+═══════════════════════════════════════════════════════════════════════════════
+ÉTAPE 3: CRÉER LA BASE DE DONNÉES (5 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+1. ACCÉDER AUX BASES DE DONNÉES:
+   Panneau Hostinger → Bases de données → Gestionnaire MySQL
+
+2. CRÉER LA BASE:
+   - Cliquez "Créer une nouvelle base de données"
+   - Nom: educations_plurielles (ou votre choix)
+   - Cliquez "Créer"
+
+3. NOTER LES INFORMATIONS (IMPORTANT!):
+   ┌──────────────────────────────────────────────────────┐
+   │ Nom de la base:  u123456_educations                  │
+   │ Nom d'utilisateur: u123456_admin                     │
+   │ Mot de passe: [généré automatiquement]              │
+   │ Serveur: localhost                                   │
+   └──────────────────────────────────────────────────────┘
+   
+   ⚠️ COPIEZ CES INFOS DANS UN FICHIER TEXTE!
+
+4. IMPORTER LE SCHEMA:
+   - Cliquez sur le nom de votre base de données
+   - Cliquez "Accéder à phpMyAdmin"
+   - Une fois dans phpMyAdmin:
+     → Onglet "Importer"
+     → Cliquez "Choisir un fichier"
+     → Sélectionnez: admin/schema.sql
+     → Défilez en bas, cliquez "Exécuter"
+   - ✅ Vous devriez voir: "4 tables créées"
+
+═══════════════════════════════════════════════════════════════════════════════
+ÉTAPE 4: UPLOAD DES FICHIERS (10 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+OPTION A - FILE MANAGER (Plus simple):
+───────────────────────────────────────────────────────────────────────────────
+1. Panneau Hostinger → Fichiers → Gestionnaire de fichiers
+2. Naviguer vers: public_html/
+3. IMPORTANT: Supprimer les fichiers par défaut (index.html de Hostinger)
+4. Cliquer "Télécharger des fichiers"
+5. Sélectionner TOUS vos fichiers et dossiers
+6. Attendre la fin de l'upload (5-10 minutes selon connexion)
+7. Vérifier que la structure est:
+   public_html/
+   ├── admin.html
+   ├── index.html
+   ├── admin/
+   │   ├── api/
+   │   ├── config.php
+   │   ├── functions.php
+   │   └── ...
+   ├── images/
+   ├── videos/
+   └── ...
+
+OPTION B - FTP (Avancé):
+───────────────────────────────────────────────────────────────────────────────
+1. Télécharger FileZilla: https://filezilla-project.org/
+2. Panneau Hostinger → Fichiers → Comptes FTP
+3. Noter les credentials FTP
+4. Ouvrir FileZilla:
+   - Hôte: ftp.votredomaine.com
+   - Utilisateur: [votre user FTP]
+   - Mot de passe: [votre pass FTP]
+   - Port: 21
+5. Naviguer vers: public_html/
+6. Glisser-déposer tous vos fichiers
+
+═══════════════════════════════════════════════════════════════════════════════
+ÉTAPE 5: CRÉER LE FICHIER .env (3 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Gestionnaire de fichiers Hostinger
+2. Naviguer vers: public_html/admin/
+3. Cliquer "Nouveau fichier"
+4. Nom: .env
+5. Cliquer sur le fichier .env pour l'éditer
+6. COLLER CE CONTENU (remplacer par VOS infos de l'étape 3):
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ # Base de données (VOS INFOS de l'étape 3)                                │
+│ DB_HOST=localhost                                                          │
+│ DB_NAME=u123456_educations                                                 │
+│ DB_USER=u123456_admin                                                      │
+│ DB_PASS=VotreMotDePasseGenere                                              │
+│                                                                            │
+│ # Email (pour reset password)                                             │
+│ MAIL_SMTP_HOST=smtp.hostinger.com                                         │
+│ MAIL_SMTP_PORT=587                                                        │
+│ MAIL_SMTP_USER=contact@votredomaine.com                                   │
+│ MAIL_SMTP_PASS=VotreMotDePasseEmail                                       │
+│ MAIL_FROM_NAME=Educations Plurielles                                      │
+│ MAIL_FROM=contact@votredomaine.com                                        │
+│                                                                            │
+│ # Application                                                             │
+│ APP_URL=https://votredomaine.com                                          │
+│ APP_NAME=Educations Plurielles                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+7. Sauvegarder (Ctrl+S)
+8. Fermer l'éditeur
+
+⚠️ REMPLACEZ:
+   - u123456_educations → VOTRE nom de base
+   - u123456_admin → VOTRE nom d'utilisateur DB
+   - VotreMotDePasseGenere → VOTRE mot de passe DB
+   - contact@votredomaine.com → VOTRE email
+   - votredomaine.com → VOTRE domaine
+
+═══════════════════════════════════════════════════════════════════════════════
+ÉTAPE 6: CRÉER LES DOSSIERS UPLOADS (2 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Gestionnaire de fichiers → public_html/
+2. Créer dossier: uploads
+3. Entrer dans uploads/
+4. Créer dossier: articles
+5. Créer dossier: ads
+6. Sélectionner le dossier uploads/
+7. Clic droit → Permissions → 755
+8. Cocher "Appliquer aux sous-dossiers"
+
+Structure finale:
+public_html/
+└── uploads/
+    ├── articles/
+    └── ads/
+
+═══════════════════════════════════════════════════════════════════════════════
+ÉTAPE 7: ACTIVER SSL (HTTPS) - GRATUIT (3 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Panneau Hostinger → Sécurité → SSL
+2. Si "Let's Encrypt" disponible:
+   - Cliquer "Activer SSL"
+   - Attendre 2-5 minutes
+3. Une fois activé:
+   - Cocher "Forcer HTTPS"
+   - Sauvegarder
+
+✅ Votre site sera accessible en https://votredomaine.com
+
+═══════════════════════════════════════════════════════════════════════════════
+ÉTAPE 8: CRÉER VOTRE COMPTE ADMIN (2 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+🎉 MOMENT IMPORTANT - CRÉATION DE VOTRE COMPTE!
+
+1. Ouvrir votre navigateur
+2. Aller sur: https://votredomaine.com/admin.html
+3. La page "Créer le premier administrateur" s'affiche automatiquement
+4. Remplir le formulaire:
+   ┌──────────────────────────────────────────────────────┐
+   │ Nom: Votre Nom                                       │
+   │ Email: votre@email.com                               │
+   │ Mot de passe: [choisir un mot de passe fort]        │
+   └──────────────────────────────────────────────────────┘
+5. Cliquer "Créer l'admin"
+6. ✅ Vous êtes automatiquement connecté!
+7. Le dashboard s'affiche → SUCCÈS!
+
+⚠️ IMPORTANT APRÈS CRÉATION:
+   → Retourner au Gestionnaire de fichiers
+   → Supprimer: public_html/admin/install.php
+   → C'est une sécurité (empêche autres créations)
+
+═══════════════════════════════════════════════════════════════════════════════
+ÉTAPE 9: VÉRIFICATION (2 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+TESTS À EFFECTUER:
+
+□ Site public accessible:
+  https://votredomaine.com → votre site s'affiche
+
+□ Admin accessible:
+  https://votredomaine.com/admin.html → dashboard s'affiche
+
+□ Créer un article test:
+  - Aller page "Articles"
+  - Créer un article
+  - Vérifier qu'il apparaît
+
+□ Upload image test:
+  - Dans article, uploader une image
+  - Vérifier que l'upload fonctionne
+
+□ Créer une pub test:
+  - Aller page "Publicités"
+  - Créer une pub
+  - Vérifier qu'elle apparaît
+
+□ Créer un autre admin:
+  - Aller page "Administrateurs"
+  - Créer un 2ème admin
+  - Se déconnecter
+  - Tester login avec nouveau compte
+
+═══════════════════════════════════════════════════════════════════════════════
+CONFIGURATION EMAIL (Optionnel mais recommandé)
+═══════════════════════════════════════════════════════════════════════════════
+
+Pour la fonctionnalité "Mot de passe oublié":
+
+1. CRÉER EMAIL PROFESSIONNEL HOSTINGER:
+   - Panneau → Emails → Créer un compte email
+   - Email: contact@votredomaine.com
+   - Mot de passe: [choisir]
+
+2. OBTENIR PARAMÈTRES SMTP:
+   - Serveur SMTP: smtp.hostinger.com
+   - Port: 587
+   - Sécurité: TLS
+   - Username: contact@votredomaine.com
+   - Password: [votre mot de passe email]
+
+3. METTRE À JOUR .env:
+   MAIL_SMTP_HOST=smtp.hostinger.com
+   MAIL_SMTP_PORT=587
+   MAIL_SMTP_USER=contact@votredomaine.com
+   MAIL_SMTP_PASS=VotreMotDePasseEmail
+
+4. TESTER:
+   - Page login → "Mot de passe oublié"
+   - Entrer votre email
+   - Vérifier réception email
+   - Cliquer lien reset
+   - Changer mot de passe
+
+═══════════════════════════════════════════════════════════════════════════════
+SÉCURITÉ POST-INSTALLATION
+═══════════════════════════════════════════════════════════════════════════════
+
+⚠️ À FAIRE IMMÉDIATEMENT:
+
+1. SUPPRIMER INSTALL.PHP:
+   Gestionnaire fichiers → public_html/admin/install.php → Supprimer
+
+2. VÉRIFIER PERMISSIONS .env:
+   admin/.env → Clic droit → Permissions → 600
+
+3. SAUVEGARDER INFOS:
+   - Credentials base de données
+   - Votre email admin
+   - Votre mot de passe (dans un gestionnaire de mots de passe)
+
+4. ACTIVER BACKUP AUTOMATIQUE:
+   Panneau Hostinger → Sauvegardes → Activer
+
+═══════════════════════════════════════════════════════════════════════════════
+AIDE RAPIDE - PROBLÈMES COURANTS
+═══════════════════════════════════════════════════════════════════════════════
+
+❌ ERREUR "Database connection error":
+   → Vérifier le fichier .env
+   → Vérifier que les infos DB sont correctes
+   → Vérifier que la base existe dans phpMyAdmin
+
+❌ PAGE BLANCHE admin.html:
+   → Ouvrir Console navigateur (F12)
+   → Vérifier erreurs JavaScript
+   → Vérifier que admin/api/admin-client.js est bien uploadé
+
+❌ UPLOAD IMAGE NE MARCHE PAS:
+   → Vérifier dossier uploads/ existe
+   → Vérifier permissions 755
+   → Panneau Hostinger → Paramètres PHP → upload_max_filesize = 20M
+
+❌ "Créer le premier administrateur" ne s'affiche pas:
+   → La base contient déjà un utilisateur
+   → Vérifier dans phpMyAdmin: SELECT * FROM users;
+   → Si besoin, vider: TRUNCATE TABLE users;
+
+═══════════════════════════════════════════════════════════════════════════════
+CONTACTS ET RESSOURCES
+═══════════════════════════════════════════════════════════════════════════════
+
+SUPPORT HOSTINGER:
+  - Chat 24/7: Panneau Hostinger → Aide
+  - Email: support@hostinger.com
+  - Base de connaissances: https://support.hostinger.com
+
+DOCUMENTATION SYSTÈME:
+  - GUIDE-COMPLET.txt (dans vos fichiers)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ RÉCAPITULATIF RAPIDE:
+   1. Créer base de données (5 min)
+   2. Uploader fichiers (10 min)
+   3. Créer .env (3 min)
+   4. Créer dossiers uploads (2 min)
+   5. Activer SSL (3 min)
+   6. Ouvrir admin.html et créer votre compte (2 min)
+   7. Supprimer install.php (30 sec)
+
+TOTAL: ~30 MINUTES
+
+🎉 VOTRE SYSTÈME EST EN LIGNE ET PRÊT! 🎉
+
+Vous pouvez maintenant:
+  ✓ Gérer vos articles
+  ✓ Gérer vos publicités
+  ✓ Créer d'autres administrateurs
+  ✓ Publier du contenu sur votre site
+
+═══════════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,17 @@
+# robots.txt pour Educations Plurielles
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://educationsplurielles.blog/sitemap.xml
+
+# Désactiver l'indexation de certains fichiers
+Disallow: /script.js
+Disallow: /style.css
+Disallow: /*.js$
+Disallow: /*.css$
+
+# Permettre l'indexation des images
+Allow: /images/
+Allow: /videos/

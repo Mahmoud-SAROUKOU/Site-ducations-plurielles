@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Article - Educations Plurielles</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <a href="index.html#articles" class="logo-link">
+          <div class="logo-wrapper">
+            <img src="Logo1.png" alt="Educations Plurielles" class="logo">
+          </div>
+          <div class="logo-text">
+            <span class="logo-main">Educations</span>
+            <span class="logo-highlight">Plurielles</span>
+          </div>
+        </a>
+      </div>
+      <nav class="main-navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html#articles" class="nav-link"><i class="fas fa-newspaper"></i>
+              ARTICLES</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="page-content active" style="display:block; visibility:visible;">
+      <div class="page-header-section articles-header">
+        <div class="page-header-overlay">
+          <h1 id="articleTitle">Chargement...</h1>
+          <p class="page-header-subtitle" id="articleMeta"></p>
+        </div>
+      </div>
+
+      <div class="articles-content-wrapper">
+        <div class="article-detail card" id="articleContent"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-bottom">
+        <p>&copy; 2026 Éducations Plurielles - Tous droits réservés</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    async function loadArticle() {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
+      if (!slug) {
+        document.getElementById('articleTitle').textContent = 'Article introuvable';
+        return;
+      }
+
+      try {
+        const res = await fetch('admin/api/index.php?action=article&slug=' + encodeURIComponent(slug));
+        if (!res.ok) {
+          throw new Error('Not found');
+        }
+        const data = await res.json();
+        document.title = data.title + ' - Educations Plurielles';
+        document.getElementById('articleTitle').textContent = data.title;
+        document.getElementById('articleMeta').textContent = (data.author || '') + ' · ' + (data.date || '') + (data.readTime ? ' · ' + data.readTime : '');
+        const contentEl = document.getElementById('articleContent');
+        contentEl.innerHTML = `
+          ${data.image ? `<img src="${data.image}" alt="${data.title}" style="width:100%;max-height:360px;object-fit:cover;border-radius:8px;margin-bottom:16px;">` : ''}
+          <div class="prose">
+            ${data.content}
+          </div>
+          ${data.tags && data.tags.length ? `
+            <div style="margin-top:16px;">
+              ${data.tags.map(tag => `<span class="tag">#${tag}</span>`).join(' ')}
+            </div>
+          ` : ''}
+        `;
+      } catch (e) {
+        document.getElementById('articleTitle').textContent = 'Article introuvable';
+        document.getElementById('articleMeta').textContent = '';
+        document.getElementById('articleContent').innerHTML = '<p>Impossible de charger cet article.</p>';
+      }
+    }
+
+    loadArticle();
+  </script>
+</body>
+
+</html>

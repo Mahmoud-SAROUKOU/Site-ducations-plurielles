@@ -1,0 +1,28 @@
+{
+  "name": "Educations Plurielles",
+  "short_name": "Edu Plurielles",
+  "description": "Espace dédié aux enfants, parents et éducateurs pour une éducation bienveillante, respectueuse et plurielle",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e3a8a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "lifestyle", "parenting"],
+  "lang": "fr",
+  "dir": "ltr",
+  "prefer_related_applications": false
+}

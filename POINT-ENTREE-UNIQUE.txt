@@ -1,0 +1,44 @@
+════════════════════════════════════════════════════════════════
+   📋 POINT D'ENTRÉE UNIQUE : admin.html
+════════════════════════════════════════════════════════════════
+
+✅ LIEN DE CONNEXION UNIQUE
+   📍 http://127.0.0.1:8000/admin.html
+
+🔐 AUTHENTIFICATION
+   📧 Email : saroukouy@gmail.com
+   🔓 Mot de passe : Non requis (connexion automatique)
+
+🎯 FONCTIONNALITÉS DISPONIBLES
+   ├─ 📊 Tableau de bord
+   ├─ 👥 Gestion des administrateurs
+   ├─ 📝 Gestion des articles
+   ├─ 📢 Gestion des publicités
+   └─ ⚙️ Paramètres du compte
+
+🚀 DÉMARRAGE RAPIDE
+   Option 1: Double-clic sur OUVRIR-ADMIN-AUTOMATIQUE.bat
+   Option 2: Lancer manuellement :
+      cd "D:\Site Educations Plurielles"
+      php -S 127.0.0.1:8000
+      Puis ouvrir : http://127.0.0.1:8000/admin.html
+
+📌 IMPORTANT
+   ⚠️  N'utilisez PAS file:///... (ne fonctionne pas avec PHP)
+   ✅  Utilisez TOUJOURS http://127.0.0.1:8000/admin.html
+   ✅  admin.html est le SEUL point d'accès au système
+   ✅  index.html redirige automatiquement vers admin.html
+
+🔄 REDIRECTION AUTOMATIQUE
+   Si vous accédez à http://127.0.0.1:8000/
+   → Redirection instantanée vers admin.html
+
+💡 NOTES
+   - Auto-refresh toutes les 30 secondes
+   - Auto-login avec l'email pré-configuré
+   - Interface responsive (mobile/desktop)
+   - Données sauvegardées en temps réel
+
+════════════════════════════════════════════════════════════════
+   Dernière mise à jour : 31 janvier 2026
+════════════════════════════════════════════════════════════════

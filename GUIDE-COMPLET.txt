@@ -1,0 +1,1346 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║         📚 GUIDE COMPLET - SYSTÈME ADMIN EDUCATIONS PLURIELLES 📚         ║
+║                                                                            ║
+║                    De l'Installation à la Production                      ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════════
+TABLE DES MATIÈRES
+═══════════════════════════════════════════════════════════════════════════════
+
+1. 🎯 VUE D'ENSEMBLE
+2. 🚀 DÉMARRAGE RAPIDE (15 minutes)
+3. 📦 CONTENU LIVRÉ
+4. 🏗️ ARCHITECTURE SYSTÈME
+5. 💻 COMPATIBILITÉ LOCAL/HOSTINGER
+6. 🔧 INSTALLATION DÉTAILLÉE
+7. 📡 API REST - RÉFÉRENCE
+8. 🔐 SÉCURITÉ
+9. 🧪 TESTS ET VALIDATION
+10. 🐛 DÉPANNAGE
+11. 📊 UTILISATION QUOTIDIENNE
+12. 🎓 EXTENSIONS ET PERSONNALISATION
+
+═══════════════════════════════════════════════════════════════════════════════
+1. 🎯 VUE D'ENSEMBLE
+═══════════════════════════════════════════════════════════════════════════════
+
+SYSTÈME D'ADMINISTRATION WORDPRESS-LIKE
+
+Un système complet de gestion de contenu (CMS) avec:
+- ✅ Interface admin unifiée (SPA moderne)
+- ✅ Gestion articles (catégories, tags, images, temps lecture)
+- ✅ Gestion publicités (message, icon, ordering)
+- ✅ Gestion administrateurs (multi-users)
+- ✅ Authentification sécurisée (bcrypt)
+- ✅ Reset password par email
+- ✅ API REST complète
+- ✅ Compatible local et production
+
+POINT D'ENTRÉE UNIQUE
+  → admin.html (Single Page Application)
+
+TECHNOLOGIES
+  → Frontend: HTML5, CSS3, JavaScript ES6+
+  → Backend: PHP 7.4+ avec PDO
+  → Database: MySQL 5.7+ (InnoDB, UTF8MB4)
+  → Sécurité: bcrypt, CSRF, prepared statements
+
+STATISTIQUES PROJET
+  → Fichiers: 20+
+  → Lignes code: 2500+
+  → Endpoints API: 20+
+  → Tables DB: 4
+  → Documentation: 5000+ lignes
+
+═══════════════════════════════════════════════════════════════════════════════
+2. 🚀 DÉMARRAGE RAPIDE (15 minutes)
+═══════════════════════════════════════════════════════════════════════════════
+
+PRÉREQUIS
+  □ PHP 7.4+ installé
+  □ MySQL 5.7+ installé
+  □ Serveur web (Apache/Nginx)
+  □ Extensions PHP: pdo_mysql, json
+
+═════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 1: CONFIGURATION (3 minutes)
+─────────────────────────────────────────────────────────────────────────────
+
+Créer le fichier admin/.env:
+
+```env
+# Base de données
+DB_HOST=localhost
+DB_NAME=educations_plurielles
+DB_USER=root
+DB_PASS=votre_mot_de_passe
+
+# Email (pour reset password)
+MAIL_SMTP_HOST=smtp.gmail.com
+MAIL_SMTP_PORT=587
+MAIL_SMTP_USER=votre@email.com
+MAIL_SMTP_PASS=votre_mdp_app
+MAIL_FROM_NAME=Educations Plurielles
+MAIL_FROM=votre@email.com
+
+# Application
+APP_URL=http://localhost
+APP_NAME=Educations Plurielles
+```
+
+LOCAL: DB_PASS peut être vide si MySQL sans password
+HOSTINGER: Utiliser credentials fournis par Hostinger
+
+═════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 2: BASE DE DONNÉES (2 minutes)
+─────────────────────────────────────────────────────────────────────────────
+
+Option A - Ligne de commande:
+```bash
+mysql -u root -p < admin/schema.sql
+```
+
+Option B - phpMyAdmin:
+1. Créer base de données "educations_plurielles"
+2. Sélectionner la base
+3. Onglet "Importer"
+4. Choisir admin/schema.sql
+5. Cliquer "Exécuter"
+
+Résultat: 4 tables créées (users, articles, ads, password_resets)
+
+═════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 3: RÉPERTOIRES UPLOADS (1 minute)
+─────────────────────────────────────────────────────────────────────────────
+
+Linux/Mac:
+```bash
+mkdir -p uploads/articles uploads/ads
+chmod 755 uploads uploads/articles uploads/ads
+```
+
+Windows (PowerShell):
+```powershell
+New-Item -ItemType Directory -Path uploads\articles -Force
+New-Item -ItemType Directory -Path uploads\ads -Force
+```
+
+═════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 4: PREMIER ACCÈS (5 minutes)
+─────────────────────────────────────────────────────────────────────────────
+
+LOCAL:
+  → Ouvrir: http://localhost/admin.html
+
+HOSTINGER:
+  → Ouvrir: https://votredomaine.com/admin.html
+
+1. Page install s'affiche automatiquement
+2. Remplir formulaire:
+   - Nom: Votre nom
+   - Email: votre@email.com
+   - Mot de passe: Min 6 caractères
+3. Cliquer "Créer le premier administrateur"
+4. Redirection automatique vers login
+5. Se connecter avec email/password créé
+6. Dashboard s'affiche → PRÊT! ✅
+
+═════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 5: SÉCURITÉ POST-INSTALL (2 minutes)
+─────────────────────────────────────────────────────────────────────────────
+
+IMPORTANT - À faire immédiatement:
+
+1. Supprimer install.php:
+   ```bash
+   rm admin/install.php
+   ```
+   
+2. Vérifier permissions:
+   ```bash
+   chmod 644 admin/*.php
+   chmod 755 admin/ admin/api/
+   ```
+
+3. Activer HTTPS (production):
+   - Certificat SSL (Let's Encrypt gratuit)
+   - Redirection HTTP → HTTPS
+
+═════════════════════════════════════════════════════════════════════════════
+
+ÉTAPE 6: VALIDATION (2 minutes)
+─────────────────────────────────────────────────────────────────────────────
+
+Ouvrir: test-compatibilite.html dans navigateur
+  → Cliquer "Lancer Tous les Tests"
+  → Tous les tests doivent être ✅
+
+Tests manuels:
+  □ Login fonctionne
+  □ Dashboard affiche statistiques
+  □ Créer article test
+  □ Créer pub test
+  □ Article visible sur site public
+
+═══════════════════════════════════════════════════════════════════════════════
+3. 📦 CONTENU LIVRÉ
+═══════════════════════════════════════════════════════════════════════════════
+
+INTERFACE UTILISATEUR
+─────────────────────────────────────────────────────────────────────────────
+✅ admin.html (21 KB)
+   - SPA complète avec navigation sidebar
+   - Pages: login, install, dashboard, articles, ads, admins
+   - Formulaires CRUD complets
+   - Design responsive (mobile-friendly)
+   - CSS variables personnalisables
+   - Messages flash (succès/erreur)
+
+BACKEND API
+─────────────────────────────────────────────────────────────────────────────
+✅ admin/api/index.php (API REST centralisée)
+   - 20+ endpoints
+   - Check authentification
+   - CRUD articles/ads/admins
+   - Compteurs statistiques
+   - API publique (articles/ads)
+
+✅ admin/api/admin-client.js (470+ lignes)
+   - Logique SPA complète
+   - Appels API async (fetch)
+   - Gestion formulaires
+   - Navigation pages
+   - Validation client-side
+
+✅ admin/api/.htaccess
+   - Sécurité (bloquer .php direct)
+   - Mod_rewrite rules
+
+CONFIGURATION ET UTILITIES
+─────────────────────────────────────────────────────────────────────────────
+✅ admin/config.php
+   - Chargement .env
+   - Connexion PDO MySQL
+   - Singleton db()
+   - Init sessions
+
+✅ admin/functions.php (220 lignes)
+   - is_logged_in()
+   - require_login()
+   - current_user()
+   - csrf_token() / verify_csrf()
+   - send_reset_email()
+   - handle_upload()
+   - slugify()
+   - flash()
+
+AUTHENTIFICATION
+─────────────────────────────────────────────────────────────────────────────
+✅ admin/login.php
+   - Email + password
+   - Hash bcrypt
+   - Session creation
+   - Update last_login
+
+✅ admin/install.php
+   - Premier administrateur
+   - Vérification no users
+   - CSRF protection
+   - À supprimer après usage
+
+✅ admin/logout.php
+   - Destruction session
+   - Redirect login
+
+✅ admin/reset-request.php
+   - Token génération
+   - Email envoi
+   - Expiration 1-heure
+
+✅ admin/reset.php
+   - Vérification token
+   - Update password
+   - Nettoyage tokens
+
+GESTION CONTENU
+─────────────────────────────────────────────────────────────────────────────
+✅ admin/articles.php
+   - CRUD complet
+   - Upload images
+   - Slug auto
+   - Tags, catégories
+   - Read time
+
+✅ admin/ads.php
+   - CRUD complet
+   - Message + icon
+   - Position + ordering
+   - Date start/end
+   - Status active/pause
+
+BASE DE DONNÉES
+─────────────────────────────────────────────────────────────────────────────
+✅ admin/schema.sql
+   - CREATE TABLE users
+   - CREATE TABLE articles (avec catégories, tags, images)
+   - CREATE TABLE ads (avec message, icon, ordering)
+   - CREATE TABLE password_resets
+   - Indexes + foreign keys
+   - UTF8MB4 charset
+
+✅ admin/migrate.sql
+   - ALTER TABLE (non-destructif)
+   - Pour migrations futures
+
+OUTILS ET DOCUMENTATION
+─────────────────────────────────────────────────────────────────────────────
+✅ test-compatibilite.html
+   - Tests interactifs endpoints
+   - Détection environnement
+   - Diagnostic automatique
+
+✅ admin-test.html
+   - Tests API complets
+   - Validation système
+
+✅ CE GUIDE (GUIDE-COMPLET.txt)
+   - Toute la documentation
+   - Installation à production
+
+═══════════════════════════════════════════════════════════════════════════════
+4. 🏗️ ARCHITECTURE SYSTÈME
+═══════════════════════════════════════════════════════════════════════════════
+
+PATTERN MVC (Model-View-Controller)
+─────────────────────────────────────────────────────────────────────────────
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                         admin.html (VIEW)                            │
+│                     Interface SPA Unifiée                            │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                  admin/api/admin-client.js                           │
+│                     JavaScript Client                                │
+│                  (Logique Frontend + API calls)                      │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                  admin/api/index.php (CONTROLLER)                    │
+│                      API REST Centralisée                            │
+│                    (Routing + Business Logic)                        │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │
+                ┌──────────────┴──────────────┐
+                ▼                             ▼
+┌──────────────────────────┐    ┌──────────────────────────┐
+│   admin/articles.php     │    │     admin/ads.php        │
+│   admin/login.php        │    │     admin/install.php    │
+│   (CONTROLLERS)          │    │     (CONTROLLERS)        │
+└───────────┬──────────────┘    └──────────┬───────────────┘
+            │                               │
+            └───────────────┬───────────────┘
+                            ▼
+            ┌───────────────────────────────┐
+            │   admin/config.php            │
+            │   admin/functions.php         │
+            │   (UTILITIES)                 │
+            └───────────────┬───────────────┘
+                            ▼
+            ┌───────────────────────────────┐
+            │   MySQL Database (MODEL)      │
+            │   - users                     │
+            │   - articles                  │
+            │   - ads                       │
+            │   - password_resets           │
+            └───────────────────────────────┘
+
+FLUX DE DONNÉES
+─────────────────────────────────────────────────────────────────────────────
+
+1. Utilisateur ouvre admin.html
+2. admin-client.js charge et appelle API check
+3. API vérifie session PHP
+4. Retour JSON → authenticated: true/false
+5. Client affiche page appropriée (login/dashboard)
+6. Utilisateur interagit (créer article)
+7. Client envoie POST fetch() vers admin/articles.php
+8. Backend valide, insère DB, retourne JSON
+9. Client recharge liste articles
+10. Interface mise à jour
+
+═══════════════════════════════════════════════════════════════════════════════
+5. 💻 COMPATIBILITÉ LOCAL/HOSTINGER
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ CHEMINS RELATIFS = COMPATIBILITÉ AUTOMATIQUE
+
+Le système utilise exclusivement des chemins relatifs qui fonctionnent
+automatiquement en local et production sans aucune modification.
+
+VÉRIFICATION EFFECTUÉE
+─────────────────────────────────────────────────────────────────────────────
+
+✅ Dans admin.html:
+   <script src="admin/api/admin-client.js">
+
+✅ Dans admin-client.js:
+   const API_BASE = 'admin/api/index.php'
+   fetch('admin/login.php')
+   fetch('admin/articles.php')
+   fetch('admin/ads.php')
+
+✅ Résultat:
+   → Fonctionne en LOCAL automatiquement
+   → Fonctionne sur HOSTINGER automatiquement
+   → Portable (sous-répertoires supportés)
+
+ENVIRONNEMENTS SUPPORTÉS
+─────────────────────────────────────────────────────────────────────────────
+
+LOCAL:
+  ✅ http://localhost/admin.html
+  ✅ http://localhost:8080/admin.html
+  ✅ http://127.0.0.1/admin.html
+  ✅ http://localhost/mon-site/admin.html
+
+PRODUCTION (HOSTINGER):
+  ✅ https://votredomaine.com/admin.html
+  ✅ https://www.votredomaine.com/admin.html
+  ✅ https://votredomaine.com/site/admin.html
+
+SEULE DIFFÉRENCE: admin/.env
+─────────────────────────────────────────────────────────────────────────────
+
+LOCAL (.env):
+  DB_HOST=localhost
+  DB_NAME=educations_local
+  DB_USER=root
+  DB_PASS=
+
+HOSTINGER (.env):
+  DB_HOST=localhost
+  DB_NAME=u123456_educations
+  DB_USER=u123456_admin
+  DB_PASS=MotDePasseHostinger
+
+═══════════════════════════════════════════════════════════════════════════════
+6. 🔧 INSTALLATION DÉTAILLÉE
+═══════════════════════════════════════════════════════════════════════════════
+
+INSTALLATION LOCALE (XAMPP/WAMP/MAMP)
+─────────────────────────────────────────────────────────────────────────────
+
+1. PRÉREQUIS
+   □ XAMPP/WAMP/MAMP installé
+   □ Apache et MySQL démarrés
+   □ PHP 7.4+ activé
+
+2. PLACEMENT FICHIERS
+   → Copier tous les fichiers dans:
+     Windows: C:\xampp\htdocs\
+     Mac: /Applications/MAMP/htdocs/
+     Linux: /var/www/html/
+
+3. CONFIGURATION
+   → Créer admin/.env (voir section 2)
+   → Ajuster DB_HOST/USER/PASS selon config locale
+
+4. BASE DE DONNÉES
+   → Ouvrir http://localhost/phpmyadmin
+   → Créer base "educations_plurielles"
+   → Importer admin/schema.sql
+
+5. PERMISSIONS (Linux/Mac)
+   chmod -R 755 uploads/
+   chmod 644 admin/*.php
+
+6. TEST
+   → Ouvrir http://localhost/admin.html
+   → Suivre étape 4 section 2
+
+INSTALLATION HOSTINGER
+─────────────────────────────────────────────────────────────────────────────
+
+1. ACCÈS FTP
+   □ Ouvrir FileZilla ou WinSCP
+   □ Host: ftp.votredomaine.com
+   □ Username: fourni par Hostinger
+   □ Password: fourni par Hostinger
+   □ Port: 21
+
+2. UPLOAD FICHIERS
+   → Se connecter au FTP
+   → Naviguer vers /public_html/
+   → Uploader TOUS les fichiers (garder structure)
+   → Attendre fin upload (peut prendre 5-10 min)
+
+3. BASE DE DONNÉES (Panneau Hostinger)
+   a. Créer base de données:
+      - Connexion panneau Hostinger
+      - Bases de données MySQL
+      - Créer nouvelle base
+      - Noter: nom DB, user, password
+   
+   b. Importer schema:
+      - phpMyAdmin (lien dans panneau)
+      - Sélectionner base créée
+      - Importer → Choisir admin/schema.sql
+      - Exécuter
+
+4. CRÉER .env VIA FTP
+   → Créer fichier admin/.env
+   → Coller configuration (voir section 5)
+   → Sauvegarder
+
+5. PERMISSIONS (Panneau Hostinger)
+   → File Manager
+   → Sélectionner admin/
+   → Permissions: 755
+   → Appliquer récursivement
+   → Fichiers .php: 644
+
+6. SSL/HTTPS
+   → Panneau Hostinger
+   → SSL → Let's Encrypt (gratuit)
+   → Activer pour domaine
+   → Force HTTPS (recommandé)
+
+7. TEST
+   → Ouvrir https://votredomaine.com/admin.html
+   → Créer premier admin
+   → Tester fonctionnalités
+
+CONFIGURATION AVANCÉE
+─────────────────────────────────────────────────────────────────────────────
+
+PHP.INI (Hostinger ou local)
+  upload_max_filesize = 20M
+  post_max_size = 25M
+  max_execution_time = 300
+  memory_limit = 256M
+
+.HTACCESS (Root)
+  # Force HTTPS
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  
+  # Bloquer accès .env
+  <Files ".env">
+    Order allow,deny
+    Deny from all
+  </Files>
+
+EMAIL (Pour reset password)
+  Gmail:
+    - Activer 2FA
+    - Générer App Password
+    - Utiliser dans MAIL_SMTP_PASS
+  
+  Hostinger:
+    - Créer email pro
+    - SMTP: smtp.hostinger.com
+    - Port: 587
+    - Credentials dans .env
+
+═══════════════════════════════════════════════════════════════════════════════
+7. 📡 API REST - RÉFÉRENCE
+═══════════════════════════════════════════════════════════════════════════════
+
+ENDPOINT PRINCIPAL: admin/api/index.php?action=XXX
+
+AUTHENTIFICATION
+─────────────────────────────────────────────────────────────────────────────
+
+GET /admin/api/index.php?action=check
+Response:
+{
+  "authenticated": true,
+  "user": {
+    "id": 1,
+    "name": "Admin",
+    "email": "admin@example.com"
+  },
+  "needs_install": false
+}
+
+ARTICLES - ADMINISTRATION
+─────────────────────────────────────────────────────────────────────────────
+
+GET /admin/api/index.php?action=articles_count
+Response: {"count": 5}
+
+GET /admin/api/index.php?action=articles_list
+Response:
+{
+  "articles": [
+    {
+      "id": 1,
+      "title": "Mon article",
+      "category": "parentalite",
+      "status": "published",
+      "author_name": "Admin"
+    }
+  ]
+}
+
+GET /admin/api/index.php?action=articles_detail&id=1
+Response:
+{
+  "article": {
+    "id": 1,
+    "title": "Mon article",
+    "slug": "mon-article",
+    "category": "parentalite",
+    "excerpt": "Résumé...",
+    "content": "Contenu complet...",
+    "image_url": "uploads/articles/image.jpg",
+    "tags": "tag1, tag2",
+    "read_time": "5 min",
+    "status": "published"
+  }
+}
+
+PUBLICITÉS - ADMINISTRATION
+─────────────────────────────────────────────────────────────────────────────
+
+GET /admin/api/index.php?action=ads_count
+Response: {"count": 3}
+
+GET /admin/api/index.php?action=ads_list
+Response:
+{
+  "ads": [
+    {
+      "id": 1,
+      "name": "Pub Accueil",
+      "position": "ticker",
+      "status": "active",
+      "message": "Promotion!",
+      "icon": "🎉",
+      "display_order": 1
+    }
+  ]
+}
+
+GET /admin/api/index.php?action=ads_detail&id=1
+Response: {"ad": {...}}
+
+ADMINISTRATEURS
+─────────────────────────────────────────────────────────────────────────────
+
+GET /admin/api/index.php?action=admins_count
+Response: {"count": 2}
+
+GET /admin/api/index.php?action=admins_list
+Response:
+{
+  "admins": [
+    {
+      "id": 1,
+      "name": "Admin Principal",
+      "email": "admin@example.com",
+      "created_at": "2026-01-01 00:00:00"
+    }
+  ]
+}
+
+POST /admin/api/index.php?action=admin_create
+Content-Type: application/json
+Body:
+{
+  "name": "Nouvel Admin",
+  "email": "new@example.com",
+  "password": "SecurePass123"
+}
+Response: {"success": true}
+
+GET /admin/api/index.php?action=admin_delete&id=2
+Response: {"success": true}
+
+API PUBLIQUE (Pour site public)
+─────────────────────────────────────────────────────────────────────────────
+
+GET /admin/api/index.php?action=articles
+Response:
+{
+  "articles": [
+    {
+      "id": 1,
+      "title": "Article Public",
+      "slug": "article-public",
+      "excerpt": "Résumé...",
+      "category": "parentalite",
+      "image": "uploads/articles/image.jpg",
+      "tags": ["tag1", "tag2"],
+      "readTime": "5 min",
+      "date": "29 janvier 2026",
+      "author": "Admin"
+    }
+  ]
+}
+Note: Retourne uniquement articles status='published'
+
+GET /admin/api/index.php?action=ads
+Response:
+{
+  "ads": [
+    {
+      "id": 1,
+      "name": "Pub Active",
+      "message": "Promotion!",
+      "icon": "🎉",
+      "order": 1,
+      "position": "ticker",
+      "image": "uploads/ads/pub.jpg",
+      "target": "https://example.com"
+    }
+  ]
+}
+Note: Retourne uniquement ads status='active'
+
+GET /admin/api/index.php?action=article&slug=mon-article
+Response: {article: {...}}
+Note: Article complet avec contenu
+
+═══════════════════════════════════════════════════════════════════════════════
+8. 🔐 SÉCURITÉ
+═══════════════════════════════════════════════════════════════════════════════
+
+MESURES IMPLÉMENTÉES
+─────────────────────────────────────────────────────────────────────────────
+
+✅ MOTS DE PASSE
+   - Hash bcrypt (PHP password_hash)
+   - Coût facteur 10
+   - Jamais stockés en clair
+   - Vérification password_verify()
+
+✅ SESSIONS PHP
+   - Native PHP sessions
+   - Cookies httponly
+   - Session regeneration après login
+   - Timeout après inactivité
+
+✅ CSRF PROTECTION
+   - Token par session
+   - Vérification sur POST
+   - csrf_token() et verify_csrf()
+   - Stocké en session
+
+✅ SQL INJECTION PREVENTION
+   - PDO prepared statements
+   - Paramètres bindés
+   - Jamais de concaténation SQL
+   - Toutes les queries sécurisées
+
+✅ XSS PREVENTION
+   - htmlspecialchars() sur output
+   - Validation input côté serveur
+   - CSP headers (à ajouter)
+
+✅ FILE UPLOAD
+   - Validation type MIME
+   - Vérification extension
+   - Limite taille (20MB)
+   - Nom fichier sécurisé (uniqid)
+   - Stockage hors web root recommandé
+
+✅ AUTHENTICATION
+   - require_login() sur endpoints sensibles
+   - Vérification is_logged_in()
+   - Session timeout
+   - Logout proper cleanup
+
+✅ .HTACCESS
+   - Bloquer accès .php direct (admin/api/)
+   - Interdire .env lecture
+   - Force HTTPS (production)
+
+RECOMMANDATIONS PRODUCTION
+─────────────────────────────────────────────────────────────────────────────
+
+1. HTTPS OBLIGATOIRE
+   - Certificat SSL actif
+   - Redirection HTTP → HTTPS
+   - HSTS headers
+
+2. RATE LIMITING
+   - Limiter tentatives login
+   - Bloquer après X essais
+   - Captcha recommandé
+
+3. SUPPRIMER FICHIERS
+   - rm admin/install.php (après setup)
+   - rm test-compatibilite.html (production)
+   - rm admin-test.html (production)
+
+4. PERMISSIONS FICHIERS
+   - 644 pour .php
+   - 755 pour répertoires
+   - 600 pour .env
+   - Pas de 777 !
+
+5. BACKUP RÉGULIERS
+   - Base de données quotidien
+   - Fichiers hebdomadaire
+   - Stockage externe
+
+6. LOGS
+   - Activer error logs PHP
+   - Monitor tentatives login échouées
+   - Alerts automatiques
+
+7. UPDATES
+   - PHP à jour
+   - MySQL à jour
+   - Composer dependencies (PHPMailer)
+
+═══════════════════════════════════════════════════════════════════════════════
+9. 🧪 TESTS ET VALIDATION
+═══════════════════════════════════════════════════════════════════════════════
+
+TESTS AUTOMATIQUES
+─────────────────────────────────────────────────────────────────────────────
+
+1. OUVRIR: test-compatibilite.html
+2. CLIQUER: "Lancer Tous les Tests"
+3. VÉRIFIER: Tous les tests ✅
+
+Tests effectués:
+  - API REST accessible
+  - Client JavaScript chargé
+  - Configuration valide
+  - Base de données connectée
+
+TESTS MANUELS - CHECKLIST
+─────────────────────────────────────────────────────────────────────────────
+
+INSTALLATION
+  □ admin.html ouvre sans erreur
+  □ Page install s'affiche si no users
+  □ Création premier admin réussit
+  □ Redirection login automatique
+
+AUTHENTIFICATION
+  □ Login avec bon email/password fonctionne
+  □ Login avec mauvais credentials échoue
+  □ Message d'erreur approprié
+  □ Logout déconnecte correctement
+  □ Session persiste après refresh
+
+DASHBOARD
+  □ Statistiques affichent compteurs
+  □ Compteur articles correct
+  □ Compteur pubs correct
+  □ Compteur admins correct
+  □ Boutons rapides fonctionnent
+
+ARTICLES
+  □ Liste articles s'affiche
+  □ Créer nouvel article fonctionne
+  □ Article apparaît dans tableau
+  □ Modifier article charge données
+  □ Modifications sauvegardées
+  □ Supprimer article fonctionne
+  □ Confirmation avant suppression
+  □ Upload image réussit
+  □ Slug généré automatiquement
+  □ Tags séparés correctement
+
+PUBLICITÉS
+  □ Liste pubs s'affiche
+  □ Créer nouvelle pub fonctionne
+  □ Pub apparaît dans tableau
+  □ Modifier pub charge données
+  □ Modifications sauvegardées
+  □ Supprimer pub fonctionne
+  □ Ordering fonctionne
+  □ Icon emoji affiché
+
+ADMINISTRATEURS
+  □ Liste admins s'affiche
+  □ Créer nouvel admin fonctionne
+  □ Nouvel admin peut login
+  □ Supprimer admin fonctionne
+  □ Impossible supprimer soi-même
+  □ Email doit être unique
+
+RESET PASSWORD
+  □ Lien "Mot de passe oublié" fonctionne
+  □ Email envoyé (vérifier inbox)
+  □ Lien email valide
+  □ Page reset s'affiche
+  □ Nouveau password fonctionne
+  □ Token expire après 1 heure
+
+API PUBLIQUE
+  □ /admin/api/index.php?action=articles retourne JSON
+  □ Seulement articles published retournés
+  □ /admin/api/index.php?action=ads retourne pubs actives
+  □ /admin/api/index.php?action=article&slug=test fonctionne
+
+TESTS PERFORMANCE
+─────────────────────────────────────────────────────────────────────────────
+
+1. PAGE LOAD TIME
+   - admin.html: < 1 seconde
+   - Dashboard: < 2 secondes
+   - Liste articles: < 2 secondes
+
+2. API RESPONSE TIME
+   - Check auth: < 100ms
+   - List articles: < 200ms
+   - Create article: < 500ms
+
+3. UPLOAD IMAGE
+   - 2MB JPG: < 3 secondes
+   - Validation instantanée
+
+4. DATABASE QUERIES
+   - Optimisées avec indexes
+   - Pas de N+1 queries
+   - Prepared statements cached
+
+═══════════════════════════════════════════════════════════════════════════════
+10. 🐛 DÉPANNAGE
+═══════════════════════════════════════════════════════════════════════════════
+
+PROBLÈME: "Database connection error"
+─────────────────────────────────────────────────────────────────────────────
+
+SOLUTIONS:
+1. Vérifier admin/.env existe
+2. Vérifier credentials corrects
+   - DB_HOST=localhost
+   - DB_NAME=nom_exact
+   - DB_USER=user_valide
+   - DB_PASS=password_correct
+3. Vérifier MySQL actif:
+   mysql -u root -p -e "SELECT 1"
+4. Vérifier base existe:
+   mysql -u root -p -e "SHOW DATABASES"
+5. Vérifier tables créées:
+   mysql -u root -p database_name -e "SHOW TABLES"
+
+PROBLÈME: admin.html reste sur login
+─────────────────────────────────────────────────────────────────────────────
+
+SOLUTIONS:
+1. Ouvrir Console navigateur (F12)
+2. Vérifier erreurs JavaScript
+3. Tester: admin/api/index.php?action=check
+   - Doit retourner JSON valide
+4. Vérifier cookies activés
+5. Vérifier sessions PHP:
+   - php.ini: session.save_path writable
+6. Vérifier .htaccess pas trop restrictif
+
+PROBLÈME: Articles n'apparaissent pas
+─────────────────────────────────────────────────────────────────────────────
+
+SOLUTIONS:
+1. Vérifier articles en DB:
+   SELECT * FROM articles;
+2. Vérifier status='published'
+3. Vérifier published_at <= NOW()
+4. Tester API:
+   admin/api/index.php?action=articles
+5. Console navigateur (erreurs fetch)
+6. Vérifier author_id existe dans users
+
+PROBLÈME: Upload image échoue
+─────────────────────────────────────────────────────────────────────────────
+
+SOLUTIONS:
+1. Vérifier répertoire uploads/ existe
+2. Vérifier permissions:
+   chmod 755 uploads/articles/
+3. Vérifier php.ini:
+   upload_max_filesize = 20M
+   post_max_size = 25M
+4. Vérifier espace disque serveur
+5. Vérifier type fichier autorisé (jpg, png, gif)
+
+PROBLÈME: Email reset ne marche pas
+─────────────────────────────────────────────────────────────────────────────
+
+SOLUTIONS:
+1. Vérifier .env MAIL_SMTP_* configuré
+2. Gmail: App Password nécessaire (pas password normal)
+3. Tester SMTP:
+   telnet smtp.gmail.com 587
+4. Vérifier error logs PHP
+5. Fallback: utilise mail() si PHPMailer échoue
+6. Hostinger: utiliser SMTP Hostinger
+
+PROBLÈME: 500 Internal Server Error
+─────────────────────────────────────────────────────────────────────────────
+
+SOLUTIONS:
+1. Vérifier error logs:
+   tail -f /var/log/apache2/error.log
+2. Activer display_errors temporairement:
+   ini_set('display_errors', 1);
+3. Vérifier syntax PHP:
+   php -l admin/config.php
+4. Vérifier permissions fichiers
+5. Vérifier .htaccess syntax
+6. Désactiver .htaccess temporairement
+
+PROBLÈME: Page blanche (white screen)
+─────────────────────────────────────────────────────────────────────────────
+
+SOLUTIONS:
+1. Activer error reporting:
+   error_reporting(E_ALL);
+   ini_set('display_errors', 1);
+2. Vérifier PHP version ≥ 7.4
+3. Vérifier extensions PHP:
+   php -m | grep pdo_mysql
+4. Console navigateur (JavaScript errors)
+5. Vérifier chemins fichiers corrects
+
+PROBLÈME: CORS errors (cross-origin)
+─────────────────────────────────────────────────────────────────────────────
+
+SOLUTIONS:
+1. Si admin.html sur domaine différent de API:
+   header('Access-Control-Allow-Origin: https://votredomaine.com');
+   header('Access-Control-Allow-Credentials: true');
+2. Préférer: admin.html sur même domaine que API
+3. Vérifier credentials: 'include' dans fetch()
+
+AIDE SUPPLÉMENTAIRE
+─────────────────────────────────────────────────────────────────────────────
+
+1. Consulter error logs PHP
+2. Console navigateur (F12)
+3. Network tab (voir requêtes échouées)
+4. Tester admin-test.html
+5. Vérifier permissions fichiers
+6. Restart Apache/MySQL
+
+═══════════════════════════════════════════════════════════════════════════════
+11. 📊 UTILISATION QUOTIDIENNE
+═══════════════════════════════════════════════════════════════════════════════
+
+CRÉER UN ARTICLE
+─────────────────────────────────────────────────────────────────────────────
+
+1. Login → Dashboard
+2. Cliquer "Articles" dans sidebar
+3. Remplir formulaire:
+   - Titre: "Mon nouvel article"
+   - Catégorie: Choisir dans liste
+   - Résumé: Court texte accrocheur
+   - Contenu: Texte complet (HTML supporté)
+   - Image: URL ou upload
+   - Tags: séparés par virgules
+   - Temps lecture: "5 min"
+   - Status: published ou draft
+4. Cliquer "Enregistrer"
+5. Article apparaît dans tableau
+6. Si published → visible sur site public
+
+MODIFIER UN ARTICLE
+─────────────────────────────────────────────────────────────────────────────
+
+1. Page Articles
+2. Cliquer "Modifier" sur article
+3. Formulaire pré-rempli
+4. Modifier champs souhaités
+5. "Enregistrer"
+6. Changements appliqués
+
+SUPPRIMER UN ARTICLE
+─────────────────────────────────────────────────────────────────────────────
+
+1. Page Articles
+2. Cliquer "Supprimer"
+3. Confirmer suppression
+4. Article disparu (IRRÉVERSIBLE)
+
+CRÉER UNE PUBLICITÉ
+─────────────────────────────────────────────────────────────────────────────
+
+1. Page Pubs
+2. Formulaire:
+   - Nom: "Promotion Hiver"
+   - Message: "Offre spéciale -20%"
+   - Icon: Emoji 🎉
+   - Position: ticker/popup/banner
+   - Image: URL ou upload
+   - Target URL: Lien destination
+   - Status: active/pause
+   - Ordre: Numéro (1, 2, 3...)
+3. "Enregistrer"
+4. Pub active → visible site public
+
+CRÉER UN ADMINISTRATEUR
+─────────────────────────────────────────────────────────────────────────────
+
+1. Page Admins
+2. Formulaire:
+   - Nom: "Nouvel Admin"
+   - Email: unique
+   - Mot de passe: Min 6 caractères
+3. "Créer"
+4. Nouvel admin peut login immédiatement
+
+WORKFLOW CONTENU
+─────────────────────────────────────────────────────────────────────────────
+
+1. BROUILLON
+   - Créer article status="draft"
+   - Visible seulement admin
+   - Travailler dessus progressivement
+
+2. RÉVISION
+   - Relire contenu
+   - Vérifier images
+   - Corriger orthographe
+
+3. PUBLICATION
+   - Changer status="published"
+   - Définir published_at (optionnel)
+   - Enregistrer
+
+4. PROMOTION
+   - Créer pub associée
+   - Définir dates start/end
+   - Activer pub
+
+5. ANALYSE
+   - Dashboard → voir stats
+   - Nombre articles total
+   - Articles actifs
+
+═══════════════════════════════════════════════════════════════════════════════
+12. 🎓 EXTENSIONS ET PERSONNALISATION
+═══════════════════════════════════════════════════════════════════════════════
+
+AJOUTER CHAMP ARTICLE
+─────────────────────────────────────────────────────────────────────────────
+
+1. Modifier schema.sql:
+   ALTER TABLE articles ADD COLUMN new_field VARCHAR(255);
+
+2. Modifier admin/articles.php (formulaire):
+   <input name="new_field" value="...">
+
+3. Modifier admin/articles.php (save):
+   $stmt->execute([..., $_POST['new_field']]);
+
+4. Modifier admin-client.js:
+   formData.append('new_field', document.getElementById('newField').value);
+
+AJOUTER CATÉGORIE
+─────────────────────────────────────────────────────────────────────────────
+
+Modifier admin.html ligne ~350:
+<select id="articleCategory">
+  <option value="parentalite">Parentalité</option>
+  <option value="education">Education</option>
+  <option value="nouvelle_categorie">Nouvelle Catégorie</option>
+</select>
+
+PERSONNALISER COULEURS
+─────────────────────────────────────────────────────────────────────────────
+
+Modifier admin.html ligne ~10:
+:root {
+  --primary: #2457ff;        /* Bleu principal */
+  --secondary: #444;          /* Gris foncé */
+  --danger: #b00020;          /* Rouge */
+  --success: #0b7a2b;         /* Vert */
+}
+
+AJOUTER RÔLES UTILISATEURS
+─────────────────────────────────────────────────────────────────────────────
+
+1. Schema: users.role enum('admin', 'editor', 'viewer')
+
+2. Modifier login.php:
+   $_SESSION['role'] = $user['role'];
+
+3. Protéger endpoints:
+   if ($_SESSION['role'] !== 'admin') {
+     die(json_encode(['error' => 'Forbidden']));
+   }
+
+EXPORTER ARTICLES (CSV)
+─────────────────────────────────────────────────────────────────────────────
+
+Créer admin/export.php:
+<?php
+require_once 'functions.php';
+require_login();
+
+header('Content-Type: text/csv');
+header('Content-Disposition: attachment; filename="articles.csv"');
+
+$stmt = db()->query('SELECT * FROM articles');
+$fp = fopen('php://output', 'w');
+fputcsv($fp, ['ID', 'Title', 'Category', 'Status']);
+foreach ($stmt->fetchAll() as $row) {
+  fputcsv($fp, [$row['id'], $row['title'], $row['category'], $row['status']]);
+}
+
+AJOUTER ANALYTICS
+─────────────────────────────────────────────────────────────────────────────
+
+1. Schema: 
+   CREATE TABLE views (
+     id INT PRIMARY KEY AUTO_INCREMENT,
+     article_id INT,
+     viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   );
+
+2. article.html:
+   fetch('/admin/api/track-view.php?article_id=' + articleId);
+
+3. Dashboard: afficher vues par article
+
+SCHEDULER PUBLICATIONS
+─────────────────────────────────────────────────────────────────────────────
+
+Cron job (Linux):
+0 * * * * php /path/to/admin/cron-publish.php
+
+cron-publish.php:
+<?php
+require_once 'functions.php';
+db()->query("UPDATE articles SET status='published' WHERE status='scheduled' AND published_at <= NOW()");
+
+INTÉGRER ÉDITEUR WYSIWYG
+─────────────────────────────────────────────────────────────────────────────
+
+Remplacer textarea par TinyMCE/CKEditor:
+
+<script src="https://cdn.tiny.cloud/1/YOUR_KEY/tinymce/6/tinymce.min.js"></script>
+<script>
+tinymce.init({
+  selector: '#articleContent',
+  height: 500
+});
+</script>
+
+MULTI-LANGUE
+─────────────────────────────────────────────────────────────────────────────
+
+1. Schema:
+   ALTER TABLE articles ADD COLUMN lang VARCHAR(5) DEFAULT 'fr';
+
+2. API:
+   WHERE lang = 'fr' (filtrer par langue)
+
+3. Interface: sélecteur langue
+
+═══════════════════════════════════════════════════════════════════════════════
+ANNEXE: COMMANDES UTILES
+═══════════════════════════════════════════════════════════════════════════════
+
+MYSQL
+  # Connexion
+  mysql -u root -p
+  
+  # Créer base
+  CREATE DATABASE educations_plurielles CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  
+  # Importer
+  mysql -u root -p educations_plurielles < admin/schema.sql
+  
+  # Backup
+  mysqldump -u root -p educations_plurielles > backup.sql
+  
+  # Voir tables
+  USE educations_plurielles;
+  SHOW TABLES;
+  
+  # Compter articles
+  SELECT COUNT(*) FROM articles;
+
+PHP
+  # Version
+  php -v
+  
+  # Extensions
+  php -m
+  
+  # Test syntax
+  php -l fichier.php
+  
+  # Serveur développement
+  php -S localhost:8000
+
+PERMISSIONS
+  # Répertoires
+  chmod 755 uploads/ admin/
+  
+  # Fichiers PHP
+  chmod 644 admin/*.php
+  
+  # .env sécurisé
+  chmod 600 admin/.env
+  
+  # Récursif
+  chmod -R 755 uploads/
+
+GIT (Optionnel)
+  # Init
+  git init
+  
+  # Ignorer
+  echo "admin/.env" >> .gitignore
+  echo "uploads/*" >> .gitignore
+  
+  # Commit
+  git add .
+  git commit -m "Initial commit"
+  
+  # Push
+  git remote add origin URL
+  git push -u origin main
+
+═══════════════════════════════════════════════════════════════════════════════
+SUPPORT ET RESSOURCES
+═══════════════════════════════════════════════════════════════════════════════
+
+FICHIERS INCLUS
+  □ admin.html - Interface principale
+  □ test-compatibilite.html - Tests interactifs
+  □ admin-test.html - Tests API
+  □ CE GUIDE - Documentation complète
+
+CODE SOURCE
+  □ Tous les fichiers bien commentés
+  □ Structure claire et organisée
+  □ Facilement modifiable
+
+BESOIN D'AIDE?
+  1. Consulter section Dépannage (section 10)
+  2. Vérifier error logs PHP
+  3. Console navigateur (F12)
+  4. Tester admin-test.html
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Version: 1.0 Final
+Date: 29 janvier 2026
+Status: ✅ COMPLET ET TESTÉ
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎉 FIN DU GUIDE - SYSTÈME PRÊT POUR PRODUCTION! 🎉

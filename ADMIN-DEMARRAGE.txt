@@ -1,0 +1,122 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║        🎯 NOUVELLE BASE ADMIN - SIMPLE & PROPRE                    ║
+║                    Janvier 2026                                    ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+📍 ACCÈS RAPIDES
+═══════════════════════════════════════════════════════════════════
+
+🔧 INSTALLATION (première utilisation)
+   → http://localhost/admin/install.php
+
+🔐 CONNEXION
+   → http://localhost/admin/login.php
+
+📊 DASHBOARD (si connecté)
+   → http://localhost/admin/dashboard.php
+
+👥 GÉRER LES ADMINISTRATEURS
+   → http://localhost/admin/admins.php
+
+🏠 PAGE D'ACCUEIL RAPIDE
+   → http://localhost/admin-accueil.php
+
+
+📦 STRUCTURE MINIMALE
+═══════════════════════════════════════════════════════════════════
+
+admin/
+├── config.php           (Configuration DB)
+├── db.php               (Classe Database)
+├── auth.php             (Classe Auth - Authentification)
+├── index.php            (Redirection auto)
+├── install.php          (Installation)
+├── login.php            (Page connexion)
+├── logout.php           (Déconnexion)
+├── dashboard.php        (Page d'accueil admin)
+├── admins.php           (Gestion admins)
+└── api/
+    ├── stats.php        (Stats JSON)
+    └── admins-list.php  (Admins JSON)
+
+
+🚀 DÉMARRAGE EN 3 ÉTAPES
+═══════════════════════════════════════════════════════════════════
+
+1️⃣  Ouvrir → http://localhost/admin/install.php
+2️⃣  Créer le premier super admin
+3️⃣  Se connecter et c'est prêt ! ✨
+
+
+🔐 SYSTÈME DE GESTION
+═══════════════════════════════════════════════════════════════════
+
+✅ Authentification sécurisée (bcrypt)
+✅ Sessions avec tokens
+✅ Logs d'audit
+✅ 2 rôles : super_admin / admin
+✅ Gestion complète des administrateurs
+✅ API JSON intégrée
+✅ UI moderne et responsive
+
+
+🗄️ BASE DE DONNÉES
+═══════════════════════════════════════════════════════════════════
+
+Tables créées automatiquement :
+  • admins        (utilisateurs admin)
+  • sessions      (sessions actives)
+  • logs          (audit logging)
+
+
+📚 DOCUMENTATION COMPLÈTE
+═══════════════════════════════════════════════════════════════════
+
+Voir le fichier : ADMIN-NOUVEAU.md
+
+
+🎯 POINTS CLÉS
+═══════════════════════════════════════════════════════════════════
+
+✨ MINIMALISTE      → Pas de code inutile
+✨ SÉCURISÉ         → Authentification robuste
+✨ FACILE           → Installation simple
+✨ RESPONSIVE       → Mobile & Desktop
+✨ MAINTENABLE      → Code lisible et commenté
+
+
+📝 NOTES IMPORTANTES
+═══════════════════════════════════════════════════════════════════
+
+→ Config DB dans : admin/config.php
+→ Variables .env à la racine du projet
+→ Première visite = Installation requise
+→ Tous les fichiers legacy ont été supprimés
+→ Structure COMPLÈTEMENT nouvelle et propre
+
+
+👨‍💻 POUR DÉVELOPPEURS
+═══════════════════════════════════════════════════════════════════
+
+Protection des pages :
+  require_once __DIR__ . '/auth.php';
+  $auth = new Auth();
+  $auth->require(); // Force connexion
+
+Créer un admin :
+  $auth->createAdmin($nom, $email, $password, $role);
+
+Accéder à la DB :
+  $pdo = Database::connect();
+
+
+✅ READY TO GO !
+═══════════════════════════════════════════════════════════════════
+
+Votre système admin est prêt pour la production ! 🚀
+
+Questions ? Voir ADMIN-NOUVEAU.md pour la documentation complète.
+
+═══════════════════════════════════════════════════════════════════
+Créé : Janvier 2026 - Éducations Plurielles
+═══════════════════════════════════════════════════════════════════

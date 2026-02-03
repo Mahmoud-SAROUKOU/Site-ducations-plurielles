@@ -1,0 +1,186 @@
+╔═══════════════════════════════════════════════════════════════╗
+║   🚀 CONNEXION GITHUB EN COURS                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📍 STATUT : Le script CONNECTER-GITHUB.ps1 est en train de tourner
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 ACTIONS À FAIRE MAINTENANT (dans le terminal ouvert)
+─────────────────────────────────────────────────────────────
+
+Le script vous pose des questions. Répondez dans l'ordre :
+
+1️⃣ "Modifier la configuration? (O/N)"
+   → Tapez : O
+   → Appuyez sur ENTRÉE
+
+2️⃣ "Votre nom"
+   → Tapez votre nom (ex: Marthe Carmelle OKOUMASSOUN)
+   → Appuyez sur ENTRÉE
+
+3️⃣ "Votre email"
+   → Tapez votre email (ex: educationsplurielleafrique@gmail.com)
+   → Appuyez sur ENTRÉE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 ENSUITE : CRÉER LE DÉPÔT GITHUB
+─────────────────────────────────────────────────────────────
+
+Le script va vous demander l'URL de votre dépôt GitHub.
+
+AVANT DE COLLER L'URL, créez le dépôt :
+
+🌐 Étapes sur GitHub :
+─────────────────────────────────────────────────────────────
+
+1. Ouvrez votre navigateur
+
+2. Allez sur : https://github.com/new
+
+3. Remplissez le formulaire :
+   
+   📝 Repository name*
+   → educations-plurielles
+   
+   📄 Description (optionnel)
+   → Site Éducations Plurielles avec admin v1.1
+   
+   🔒 Visibilité
+   → ⚠️ Choisissez "Private" (RECOMMANDÉ)
+   
+   ❌ NE COCHEZ PAS ces options :
+   - Add a README file
+   - Add .gitignore
+   - Choose a license
+
+4. Cliquez : "Create repository" (bouton vert)
+
+5. Sur la page qui s'affiche, COPIEZ l'URL qui ressemble à :
+   
+   https://github.com/VOTRE_USERNAME/educations-plurielles.git
+   
+   (Elle est affichée en haut, section "Quick setup")
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔗 RETOUR AU TERMINAL
+─────────────────────────────────────────────────────────────
+
+Le script va vous demander :
+
+"Collez l'URL de votre depot GitHub (ou ENTREE pour plus tard)"
+
+→ COLLEZ l'URL que vous avez copiée de GitHub
+→ Appuyez sur ENTRÉE
+
+Le script va automatiquement :
+✅ Connecter votre projet local à GitHub
+✅ Pousser tous vos fichiers vers GitHub
+✅ Configurer la synchronisation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔐 AUTHENTIFICATION GITHUB
+─────────────────────────────────────────────────────────────
+
+Si GitHub vous demande de vous authentifier :
+
+Option 1 : Navigateur
+→ Une fenêtre de navigateur va s'ouvrir
+→ Connectez-vous avec vos identifiants GitHub
+→ Autorisez Git
+
+Option 2 : Token (si demandé dans le terminal)
+→ Utilisez votre Personal Access Token
+→ (Créez-en un sur : https://github.com/settings/tokens)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ SUCCÈS ATTENDU
+─────────────────────────────────────────────────────────────
+
+Quand tout est terminé, vous verrez :
+
+========================================
+SUCCES! CODE SUR GITHUB!
+========================================
+
+Votre projet est maintenant sur GitHub:
+https://github.com/USERNAME/educations-plurielles.git
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔒 FICHIERS PROTÉGÉS (ne seront PAS sur GitHub)
+─────────────────────────────────────────────────────────────
+
+Grâce au fichier .gitignore, ces fichiers sensibles sont protégés :
+
+✅ .env (variables d'environnement)
+✅ .admin-credentials.txt (identifiants admin)
+✅ admin/database.sqlite (base de données)
+✅ uploads/images/* (fichiers uploadés par utilisateurs)
+✅ vendor/ (dépendances Composer)
+✅ *.log (fichiers de logs)
+
+C'est NORMAL et SÉCURISÉ !
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 APRÈS LA CONNEXION GITHUB
+─────────────────────────────────────────────────────────────
+
+1️⃣ Vérifier la synchronisation Hostinger :
+   → Ouvrez admin.html dans le navigateur
+   → Allez dans Paramètres ⚙️
+   → Section "Synchronisation Hostinger"
+   → Remplissez les champs si pas déjà fait
+
+2️⃣ Tester le système :
+   → Créez un article test dans admin.html
+   → Vérifiez qu'il apparaît bien
+
+3️⃣ Workflow de travail quotidien :
+   
+   Après chaque modification :
+   
+   git add .
+   git commit -m "Description des modifications"
+   git push
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🆘 EN CAS DE PROBLÈME
+─────────────────────────────────────────────────────────────
+
+❌ "Permission denied"
+   → Configurez SSH ou utilisez HTTPS avec token
+   → Guide : https://docs.github.com/fr/authentication
+
+❌ "Failed to push"
+   → Vérifiez connexion internet
+   → Vérifiez que le dépôt GitHub est vide (pas de README)
+   → Vérifiez l'URL (doit finir par .git)
+
+❌ "Authentication failed"
+   → Créez un Personal Access Token
+   → https://github.com/settings/tokens
+   → Utilisez le token comme mot de passe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 DOCUMENTATION
+─────────────────────────────────────────────────────────────
+
+→ GUIDE-GIT-GITHUB.md (guide complet détaillé)
+→ ETAPES-RAPIDES.txt (résumé rapide)
+→ CONNECTER-GITHUB-AIDE.txt (ce fichier)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Date : 3 février 2026
+Script actif : CONNECTER-GITHUB.ps1
+Status : ⏳ Configuration en cours dans terminal
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -1,0 +1,145 @@
+╔═══════════════════════════════════════════════════════════════╗
+║   🚀 INSTALLATION GIT & GITHUB - ÉTAPES RAPIDES             ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📍 STATUT ACTUEL : Installation Git EN COURS...
+
+⏱️ TEMPS ESTIMÉ : 3-5 minutes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ ÉTAPE 1 : INSTALLATION GIT (EN COURS)
+─────────────────────────────────────────────────────────────
+Le script INSTALLER-GIT.ps1 est en train de :
+→ Télécharger Git v2.43.0 (50 MB)
+→ Installer Git automatiquement
+→ Configurer votre nom et email
+
+⏳ Patientez 2-3 minutes...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 ÉTAPE 2 : APRÈS INSTALLATION
+─────────────────────────────────────────────────────────────
+1. ❌ FERMEZ ce terminal
+2. ✅ OUVREZ un NOUVEAU terminal PowerShell
+3. ✅ Tapez : git --version
+4. ✅ Lancez : .\GIT-INIT-PROJET.bat
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 ÉTAPE 3 : CRÉER DÉPÔT GITHUB
+─────────────────────────────────────────────────────────────
+1. Allez sur : https://github.com/new
+2. Nom : educations-plurielles
+3. Visibilité : Private ⚠️
+4. Ne PAS cocher "Initialize with README"
+5. Cliquez : Create repository
+6. Copiez l'URL : https://github.com/USERNAME/educations-plurielles.git
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔗 ÉTAPE 4 : LIER LOCAL → GITHUB
+─────────────────────────────────────────────────────────────
+Commandes à exécuter (remplacez USERNAME) :
+
+   git remote add origin https://github.com/USERNAME/educations-plurielles.git
+   git branch -M main
+   git push -u origin main
+
+Entrez vos identifiants GitHub si demandé.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 ÉTAPE 5 : VÉRIFIER SYNC HOSTINGER
+─────────────────────────────────────────────────────────────
+1. Ouvrez : admin.html dans le navigateur
+2. Allez dans : Paramètres ⚙️
+3. Section : Synchronisation Hostinger
+4. Remplissez les 4 champs (endpoint, upload, refresh, apiKey)
+5. Cochez : ☑️ Synchroniser en ligne
+6. Cliquez : 💾 Enregistrer
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 COMMANDES GIT QUOTIDIENNES
+─────────────────────────────────────────────────────────────
+Sauvegarder :
+   git add .
+   git commit -m "Description"
+   git push
+
+Récupérer :
+   git pull
+
+Voir statut :
+   git status
+
+Historique :
+   git log --oneline
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔐 FICHIERS PROTÉGÉS (ne seront PAS sur GitHub)
+─────────────────────────────────────────────────────────────
+✅ .env (variables d'environnement)
+✅ .admin-credentials.txt (identifiants)
+✅ admin/database.sqlite (base de données)
+✅ uploads/images/* (fichiers uploadés)
+✅ vendor/ (dépendances)
+✅ *.log (logs)
+
+C'est NORMAL et SÉCURISÉ !
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 FICHIERS CRÉÉS POUR VOUS
+─────────────────────────────────────────────────────────────
+✅ INSTALLER-GIT.ps1       → Installation automatique Git
+✅ INSTALLER-GIT.bat        → Lance l'installation (admin)
+✅ GIT-INIT-PROJET.bat      → Initialise le dépôt local
+✅ .gitignore               → Protège fichiers sensibles
+✅ GUIDE-GIT-GITHUB.md      → Guide complet détaillé
+✅ ETAPES-RAPIDES.txt       → Ce fichier aide-mémoire
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🆘 EN CAS DE PROBLÈME
+─────────────────────────────────────────────────────────────
+"git n'est pas reconnu" 
+   → Redémarrez Windows
+
+"Permission denied" 
+   → Configurez SSH GitHub
+
+"Failed to push" 
+   → Vérifiez connexion internet
+
+Hostinger sync ne marche pas 
+   → Testez avec test-configuration.html
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 DOCUMENTATION COMPLÈTE
+─────────────────────────────────────────────────────────────
+→ GUIDE-GIT-GITHUB.md (ce fichier, version longue)
+→ CONFIGURATION-COMPLETE.md (config Hostinger)
+→ DEMARRAGE-RAPIDE.md (démarrage projet)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 FÉLICITATIONS !
+─────────────────────────────────────────────────────────────
+Une fois toutes les étapes terminées, vous aurez :
+✅ Git installé et configuré
+✅ Dépôt local initialisé
+✅ Code sauvegardé sur GitHub
+✅ Synchronisation Hostinger opérationnelle
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Date : 3 février 2026
+Version Git : 2.43.0
+Projet : Éducations Plurielles v1.1
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
