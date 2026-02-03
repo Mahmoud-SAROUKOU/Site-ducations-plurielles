@@ -1117,7 +1117,11 @@
             let articles = JSON.parse(localStorage.getItem('ep_articles') || '[]');
             let ads = JSON.parse(localStorage.getItem('ep_ads') || '[]');
             let admins = JSON.parse(localStorage.getItem('ep_admins') || '[]');
-            let syncConfig = JSON.parse(localStorage.getItem('syncConfig') || '{"enabled": false, "endpoint": "", "uploadUrl": "", "refreshUrl": "", "apiKey": ""}');
+            let syncConfig = JSON.parse(localStorage.getItem('syncConfig') || '{"enabled": true, "endpoint": "", "uploadUrl": "", "refreshUrl": "", "apiKey": ""}');
+            const DEFAULT_PUBLIC_BASE = (window.location && window.location.origin && window.location.origin !== 'null')
+                ? window.location.origin
+                : 'https://educationsplurielles.blog';
+            const DEFAULT_API_KEY = '0zPp6sXwL1r3mT4uV8kQ2nYbJc7tH9aFfGvN2rQ0s8A=';
             let currentAdmin = JSON.parse(localStorage.getItem('ep_current_admin') || '{"name": "Admin", "email": "admin@local.com", "role": "super_admin"}');
 
             // Auto-sync
@@ -1190,13 +1194,14 @@
             });
 
             function initializeApp() {
-                updateSyncStatus();
-
                 // ✅ CORRECTION: Recharger les données du localStorage en cas de rafraîchissement
                 articles = JSON.parse(localStorage.getItem('ep_articles') || '[]');
                 ads = JSON.parse(localStorage.getItem('ep_ads') || '[]');
                 admins = JSON.parse(localStorage.getItem('ep_admins') || '[]');
-                syncConfig = JSON.parse(localStorage.getItem('syncConfig') || '{"enabled": false, "endpoint": "", "uploadUrl": "", "refreshUrl": "", "apiKey": ""}');
+                syncConfig = JSON.parse(localStorage.getItem('syncConfig') || '{"enabled": true, "endpoint": "", "uploadUrl": "", "refreshUrl": "", "apiKey": ""}');
+
+                applyDefaultSyncConfig();
+                updateSyncStatus();
 
                 console.log('✅ Données rechargées:', {
                     articles: articles.length,
@@ -1204,6 +1209,25 @@
                     admins: admins.length,
                     syncEnabled: syncConfig.enabled
                 });
+            }
+
+            function applyDefaultSyncConfig() {
+                const needsEndpoint = !syncConfig.endpoint;
+                const needsUpload = !syncConfig.uploadUrl;
+                const needsRefresh = !syncConfig.refreshUrl;
+                const needsApiKey = !syncConfig.apiKey;
+
+                if (needsEndpoint || needsUpload || needsRefresh || needsApiKey) {
+                    syncConfig = {
+                        ...syncConfig,
+                        enabled: true,
+                        endpoint: syncConfig.endpoint || `${DEFAULT_PUBLIC_BASE}/admin/api/sync.php`,
+                        uploadUrl: syncConfig.uploadUrl || `${DEFAULT_PUBLIC_BASE}/admin/api/upload.php`,
+                        refreshUrl: syncConfig.refreshUrl || `${DEFAULT_PUBLIC_BASE}/?refresh=1`,
+                        apiKey: syncConfig.apiKey || DEFAULT_API_KEY
+                    };
+                    localStorage.setItem('syncConfig', JSON.stringify(syncConfig));
+                }
             }
 
             function updateSyncStatus() {
@@ -1224,12 +1248,16 @@
             function startAutoSync() {
                 if (autoSyncInterval) clearInterval(autoSyncInterval);
 
-                if (syncConfig.enabled && syncConfig.endpoint) {
+                if (syncConfig.enabled) {
                     autoSyncInterval = setInterval(async () => {
                         await performAutoSync();
                     }, 1000); // 1 seconde
 
-                    console.log('✅ Auto-sync démarré (1s)');
+                    if (!syncConfig.endpoint) {
+                        console.warn('⚠️ Auto-sync actif mais endpoint non configuré');
+                    } else {
+                        console.log('✅ Auto-sync démarré (1s)');
+                    }
                 }
             }
 
@@ -1345,12 +1373,16 @@
             function startAutoSync() {
                 if (autoSyncInterval) clearInterval(autoSyncInterval);
 
-                if (syncConfig.enabled && syncConfig.endpoint) {
+                if (syncConfig.enabled) {
                     autoSyncInterval = setInterval(async () => {
                         await performAutoSync();
                     }, 1000); // 1 seconde
 
-                    console.log('✅ Auto-sync démarré (1s)');
+                    if (!syncConfig.endpoint) {
+                        console.warn('⚠️ Auto-sync actif mais endpoint non configuré');
+                    } else {
+                        console.log('✅ Auto-sync démarré (1s)');
+                    }
                 }
             }
 
@@ -2000,7 +2032,7 @@
                 document.getElementById('uploadUrl').value = syncConfig.uploadUrl || '';
                 document.getElementById('refreshUrl').value = syncConfig.refreshUrl || '';
                 document.getElementById('apiKey').value = syncConfig.apiKey || '';
-                document.getElementById('syncEnabled').checked = syncConfig.enabled || false;
+                document.getElementById('syncEnabled').checked = syncConfig.enabled !== false;
             }
 
             function saveSettings() {

@@ -1,0 +1,39 @@
+name: Déploiement Hostinger (admin.html)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "admin.html"
+      - "recovery-script.js"
+      - ".github/workflows/deploy-hostinger.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Préparer le paquet
+        run: |
+          mkdir -p dist
+          cp admin.html dist/admin.html
+          if [ -f recovery-script.js ]; then cp recovery-script.js dist/recovery-script.js; fi
+
+      - name: Déployer via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        with:
+          server: ${{ secrets.HOSTINGER_FTP_HOST }}
+          username: ${{ secrets.HOSTINGER_FTP_USER }}
+          password: ${{ secrets.HOSTINGER_FTP_PASS }}
+          port: ${{ secrets.HOSTINGER_FTP_PORT }}
+          local-dir: dist/
+          server-dir: ${{ secrets.HOSTINGER_SERVER_DIR }}
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/node_modules/**
+            **/.env
