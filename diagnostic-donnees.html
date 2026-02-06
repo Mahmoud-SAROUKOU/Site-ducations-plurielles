@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Diagnostic Données Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .alert-success { background: #d1fae5; color: #065f46; }
+        .alert-warning { background: #fef3c7; color: #92400e; }
+        .alert-error { background: #fee2e2; color: #991b1b; }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .btn:hover { opacity: 0.9; }
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="font-size: 32px; margin-bottom: 10px;">🔍 Diagnostic des Données Admin</h1>
+        <p style="color: #666; margin-bottom: 30px;">Vérification complète de l'état de votre base admin</p>
+
+        <div class="section">
+            <h2 style="font-size: 24px; margin-bottom: 15px;">📊 État du localStorage</h2>
+            <div id="localStorageStatus"></div>
+        </div>
+
+        <div class="section">
+            <h2 style="font-size: 24px; margin-bottom: 15px;">👥 Administrateurs</h2>
+            <div id="adminsStatus"></div>
+        </div>
+
+        <div class="section">
+            <h2 style="font-size: 24px; margin-bottom: 15px;">📝 Articles</h2>
+            <div id="articlesStatus"></div>
+        </div>
+
+        <div class="section">
+            <h2 style="font-size: 24px; margin-bottom: 15px;">📢 Publicités</h2>
+            <div id="adsStatus"></div>
+        </div>
+
+        <div class="section">
+            <h2 style="font-size: 24px; margin-bottom: 15px;">⚙️ Configuration Sync</h2>
+            <div id="syncStatus"></div>
+        </div>
+
+        <div class="section">
+            <h2 style="font-size: 24px; margin-bottom: 15px;">🔧 Actions de récupération</h2>
+            <button class="btn" onclick="showAllData()">📋 Afficher toutes les données brutes</button>
+            <button class="btn" onclick="exportData()">💾 Exporter les données (JSON)</button>
+            <button class="btn" onclick="checkBackup()">🔍 Chercher sauvegardes</button>
+            <button class="btn" onclick="testDBConnection()">🗄️ Tester connexion BD SQLite</button>
+            <div id="actionResults" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Vérification immédiate au chargement
+        window.addEventListener('DOMContentLoaded', function() {
+            diagnoseLocalStorage();
+            diagnoseAdmins();
+            diagnoseArticles();
+            diagnoseAds();
+            diagnoseSync();
+        });
+
+        function diagnoseLocalStorage() {
+            const div = document.getElementById('localStorageStatus');
+            const keys = Object.keys(localStorage);
+            const epKeys = keys.filter(k => k.startsWith('ep_') || k === 'syncConfig');
+            
+            if (epKeys.length === 0) {
+                div.innerHTML = `
+                    <div class="alert alert-error">
+                        <strong>❌ PROBLÈME DÉTECTÉ</strong><br>
+                        Aucune donnée "ep_" trouvée dans localStorage. Les données ont peut-être été effacées.
+                    </div>
+                `;
+            } else {
+                let html = `<div class="alert alert-success">✅ ${epKeys.length} clés trouvées</div>`;
+                html += '<table><thead><tr><th>Clé</th><th>Taille</th><th>Éléments</th></tr></thead><tbody>';
+                
+                epKeys.forEach(key => {
+                    const value = localStorage.getItem(key);
+                    const size = new Blob([value]).size;
+                    let count = '-';
+                    try {
+                        const parsed = JSON.parse(value);
+                        if (Array.isArray(parsed)) {
+                            count = parsed.length;
+                        }
+                    } catch(e) {}
+                    
+                    html += `<tr>
+                        <td><code>${key}</code></td>
+                        <td>${(size / 1024).toFixed(2)} KB</td>
+                        <td>${count}</td>
+                    </tr>`;
+                });
+                
+                html += '</tbody></table>';
+                div.innerHTML = html;
+            }
+        }
+
+        function diagnoseAdmins() {
+            const div = document.getElementById('adminsStatus');
+            const admins = JSON.parse(localStorage.getItem('ep_admins') || '[]');
+            const currentAdmin = JSON.parse(localStorage.getItem('ep_current_admin') || 'null');
+            
+            if (admins.length === 0) {
+                div.innerHTML = `
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Aucun administrateur trouvé</strong><br>
+                        La liste des administrateurs est vide dans localStorage.
+                    </div>
+                `;
+            } else {
+                let html = `<div class="alert alert-success">✅ ${admins.length} administrateur(s) trouvé(s)</div>`;
+                html += '<table><thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>ID distant</th></tr></thead><tbody>';
+                
+                admins.forEach(admin => {
+                    html += `<tr>
+                        <td>${admin.nom || admin.name || 'N/A'}</td>
+                        <td>${admin.email || 'N/A'}</td>
+                        <td>${admin.role || 'N/A'}</td>
+                        <td>${admin.remote_id || '-'}</td>
+                    </tr>`;
+                });
+                
+                html += '</tbody></table>';
+                
+                if (currentAdmin) {
+                    html += `<div class="alert alert-success" style="margin-top:15px;">
+                        <strong>Admin actuel:</strong> ${currentAdmin.name || currentAdmin.nom} (${currentAdmin.email})
+                    </div>`;
+                }
+                
+                div.innerHTML = html;
+            }
+        }
+
+        function diagnoseArticles() {
+            const div = document.getElementById('articlesStatus');
+            const articles = JSON.parse(localStorage.getItem('ep_articles') || '[]');
+            
+            if (articles.length === 0) {
+                div.innerHTML = `
+                    <div class="alert alert-warning">
+                        ⚠️ Aucun article trouvé dans localStorage
+                    </div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div class="alert alert-success">
+                        ✅ ${articles.length} article(s) trouvé(s)<br>
+                        <small>Titres: ${articles.slice(0, 3).map(a => a.title).join(', ')}${articles.length > 3 ? '...' : ''}</small>
+                    </div>
+                `;
+            }
+        }
+
+        function diagnoseAds() {
+            const div = document.getElementById('adsStatus');
+            const ads = JSON.parse(localStorage.getItem('ep_ads') || '[]');
+            
+            if (ads.length === 0) {
+                div.innerHTML = `
+                    <div class="alert alert-warning">
+                        ⚠️ Aucune publicité trouvée dans localStorage
+                    </div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div class="alert alert-success">
+                        ✅ ${ads.length} publicité(s) trouvée(s)
+                    </div>
+                `;
+            }
+        }
+
+        function diagnoseSync() {
+            const div = document.getElementById('syncStatus');
+            const syncConfig = JSON.parse(localStorage.getItem('syncConfig') || '{}');
+            
+            let html = '';
+            if (syncConfig.enabled) {
+                html += `<div class="alert alert-success">✅ Synchronisation activée</div>`;
+            } else {
+                html += `<div class="alert alert-warning">⚠️ Synchronisation désactivée</div>`;
+            }
+            
+            html += '<table><tr><th>Paramètre</th><th>Valeur</th></tr>';
+            html += `<tr><td>Endpoint</td><td><code>${syncConfig.endpoint || 'Non défini'}</code></td></tr>`;
+            html += `<tr><td>Upload URL</td><td><code>${syncConfig.uploadUrl || 'Non défini'}</code></td></tr>`;
+            html += `<tr><td>Clé API</td><td>${syncConfig.apiKey ? '✓ Définie' : '✗ Absente'}</td></tr>`;
+            html += '</table>';
+            
+            div.innerHTML = html;
+        }
+
+        function showAllData() {
+            const data = {
+                ep_articles: JSON.parse(localStorage.getItem('ep_articles') || '[]'),
+                ep_ads: JSON.parse(localStorage.getItem('ep_ads') || '[]'),
+                ep_admins: JSON.parse(localStorage.getItem('ep_admins') || '[]'),
+                ep_current_admin: JSON.parse(localStorage.getItem('ep_current_admin') || 'null'),
+                syncConfig: JSON.parse(localStorage.getItem('syncConfig') || '{}')
+            };
+            
+            const resultsDiv = document.getElementById('actionResults');
+            resultsDiv.innerHTML = `
+                <h3 style="margin-bottom:10px;">📋 Données complètes</h3>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+        }
+
+        function exportData() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                ep_articles: JSON.parse(localStorage.getItem('ep_articles') || '[]'),
+                ep_ads: JSON.parse(localStorage.getItem('ep_ads') || '[]'),
+                ep_admins: JSON.parse(localStorage.getItem('ep_admins') || '[]'),
+                ep_current_admin: JSON.parse(localStorage.getItem('ep_current_admin') || 'null'),
+                syncConfig: JSON.parse(localStorage.getItem('syncConfig') || '{}')
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `admin-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            const resultsDiv = document.getElementById('actionResults');
+            resultsDiv.innerHTML = `<div class="alert alert-success">✅ Données exportées avec succès</div>`;
+        }
+
+        function checkBackup() {
+            const resultsDiv = document.getElementById('actionResults');
+            const allKeys = Object.keys(localStorage);
+            const backupKeys = allKeys.filter(k => k.includes('backup') || k.includes('_old'));
+            
+            if (backupKeys.length > 0) {
+                let html = `<div class="alert alert-success">✅ ${backupKeys.length} sauvegarde(s) trouvée(s)</div>`;
+                html += '<ul>';
+                backupKeys.forEach(key => {
+                    html += `<li><code>${key}</code> - ${(new Blob([localStorage.getItem(key)]).size / 1024).toFixed(2)} KB</li>`;
+                });
+                html += '</ul>';
+                resultsDiv.innerHTML = html;
+            } else {
+                resultsDiv.innerHTML = `<div class="alert alert-warning">⚠️ Aucune sauvegarde trouvée dans localStorage</div>`;
+            }
+        }
+
+        async function testDBConnection() {
+            const resultsDiv = document.getElementById('actionResults');
+            resultsDiv.innerHTML = '<div class="alert alert-warning">🔄 Test de connexion en cours...</div>';
+            
+            try {
+                const response = await fetch('admin/test-auth.php');
+                const text = await response.text();
+                
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-success">✅ Fichier test-auth.php accessible</div>
+                    <details>
+                        <summary>Voir la réponse complète</summary>
+                        <pre>${text.substring(0, 500)}${text.length > 500 ? '...' : ''}</pre>
+                    </details>
+                `;
+            } catch (e) {
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-error">❌ Erreur: ${e.message}</div>
+                    <p>Le fichier test-auth.php n'est pas accessible ou le serveur n'est pas démarré.</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
