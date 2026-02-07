@@ -47,6 +47,7 @@ package-lock.json
 logs/
 error.log
 debug.log
+admin/email-queue.json
 
 # ===== WINDOWS =====
 desktop.ini
@@ -67,6 +68,7 @@ $RECYCLE.BIN/
 # ===== DATABASE BACKUPS =====
 *.sql
 backups/
+deployment-pack*.zip
 
 # ===== COMPOSER & NPM =====
 composer.phar
