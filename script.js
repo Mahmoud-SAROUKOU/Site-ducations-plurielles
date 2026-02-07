@@ -6,9 +6,8 @@ class NavigationManager {
     constructor() {
         this.currentPage = 'accueil';
         this.isInitialized = false;
-        this.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         
-        console.log('NavigationManager initialisé - iOS:', this.isIOS);
+        console.log('NavigationManager créé');
     }
     
     init() {
@@ -21,7 +20,7 @@ class NavigationManager {
         this.setupContentLinks();
         
         this.isInitialized = true;
-        console.log('NavigationManager prêt');
+        console.log('NavigationManager initialisé');
     }
     
     setupPages() {
@@ -33,7 +32,15 @@ class NavigationManager {
             const page = document.getElementById(pageId);
             if (page) {
                 page.style.display = 'none';
+                page.style.visibility = 'hidden';
+                page.style.opacity = '0';
                 page.classList.remove('active');
+                
+                // Force pour iOS
+                if (this.isIOS) {
+                    page.style.webkitTransform = 'translateZ(0)';
+                    page.style.transform = 'translateZ(0)';
+                }
             }
         });
     }
@@ -94,44 +101,77 @@ class NavigationManager {
         // Mettre à jour l'état
         this.currentPage = pageId;
         
-        // 1. Cacher toutes les pages
+        // 1. Cacher toutes les pages AGRESSIVEMENT
         this.pages.forEach(id => {
             const page = document.getElementById(id);
             if (page) {
                 page.classList.remove('active');
-                page.style.display = 'none';
-                
-                // Réinitialiser les animations
-                page.style.opacity = '0';
-                page.style.transform = 'translateY(20px)';
+                page.style.cssText = 'display: none !important; visibility: hidden !important; opacity: 0;';
             }
         });
         
-        // 2. Afficher la page cible
+        // 2. Afficher la page cible ULTRA-AGRESSIF
         targetPage.classList.add('active');
-        targetPage.style.display = 'block';
+        targetPage.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important; transform: translateY(0) !important;';
         
-        // 3. Animation d'entrée
-        setTimeout(() => {
-            targetPage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            targetPage.style.opacity = '1';
-            targetPage.style.transform = 'translateY(0)';
-        }, 10);
+        // 3. Force GPU acceleration iOS
+        if (this.isIOS) {
+            targetPage.style.webkitTransform = 'translateZ(0)';
+            targetPage.style.transform = 'translateZ(0)';
+        }
         
-        // 4. Mettre à jour les liens actifs
-        this.updateActiveLink(pageId);
+        // 4. Forcer TOUS les éléments critiques visibles
+        const criticalSelectors = [
+            '.page-header-section',
+            '.page-header-overlay',
+            '[class*="-content-wrapper"]',
+            '.header-images-grid',
+            '.resources-images-grid',
+            '.apropos-images-showcase',
+            '.header-video-container',
+            '.articles-list',
+            '.video-gallery',
+            '.ressources-container',
+            '.about-content'
+        ];
         
-        // 5. Scroll vers le haut
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+        criticalSelectors.forEach(selector => {
+            const elements = targetPage.querySelectorAll(selector);
+            elements.forEach(el => {
+                el.style.display = 'block';
+                el.style.visibility = 'visible';
+                el.style.opacity = '1';
+            });
         });
         
-        // 6. Mettre à jour l'URL
-        history.pushState({ page: pageId }, '', `#${pageId}`);
+        // Grilles spéciales
+        const grids = targetPage.querySelectorAll('.header-images-grid, .resources-images-grid, .apropos-images-showcase');
+        grids.forEach(grid => {
+            grid.style.display = 'grid';
+        });
         
-        // 7. Fermer le menu mobile si ouvert
+        // 5. Mettre à jour les liens actifs
+        this.updateActiveLink(pageId);
+        
+        // 6. Scroll vers le haut (iOS safe)
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 10);
+        
+        // 7. Mettre à jour l'URL
+        if (history.pushState) {
+            history.pushState({ page: pageId }, '', `#${pageId}`);
+        }
+        
+        // 8. Fermer le menu mobile
         this.closeMobileMenu();
+        
+        // 9. Force repaint iOS
+        if (this.isIOS) {
+            targetPage.style.display = 'none';
+            targetPage.offsetHeight; // Force reflow
+            targetPage.style.display = 'block';
+        }
         
         console.log('Navigation terminée vers:', pageId);
     }
@@ -351,18 +391,40 @@ function initSlider() {
 function initArticles() {
     const grid = document.getElementById('articlesGrid');
     const loadMoreBtn = document.getElementById('loadMore');
-    
-    if (!grid || !window.appData?.articlesData) return;
+
+    if (!grid) return;
     
     let visibleCount = 2;
     let currentCategory = 'all';
+
+    function getArticlesSource() {
+        if (window.contentManager && typeof window.contentManager.getPublishedArticles === 'function') {
+            const data = window.contentManager.getPublishedArticles();
+            if (data && data.length) {
+                return data.map(a => ({
+                    ...a,
+                    date: a.date || '',
+                    readTime: a.readTime || '',
+                    image: a.image || '',
+                    tags: a.tags || [],
+                    slug: a.slug || ''
+                }));
+            }
+        }
+        return window.appData?.articlesData || [];
+    }
     
     function renderArticles() {
         grid.innerHTML = '';
-        
-        const filtered = currentCategory === 'all' 
-            ? window.appData.articlesData
-            : window.appData.articlesData.filter(article => article.category === currentCategory);
+        const source = getArticlesSource();
+        if (!source.length) {
+            grid.innerHTML = '<p class="text-center text-gray-500">Aucun article disponible pour le moment.</p>';
+            return;
+        }
+
+        const filtered = currentCategory === 'all'
+            ? source
+            : source.filter(article => article.category === currentCategory);
         
         filtered.slice(0, visibleCount).forEach(article => {
             const articleElement = document.createElement('article');
@@ -382,7 +444,7 @@ function initArticles() {
                     <div class="article-tags">
                         ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                     </div>
-                    <a href="#" class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></a>
+                    <a href="${article.slug ? `article.html?slug=${encodeURIComponent(article.slug)}` : '#'}" class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></a>
                 </div>
             `;
             grid.appendChild(articleElement);
@@ -423,6 +485,11 @@ function initArticles() {
     });
     
     renderArticles();
+
+    window.addEventListener('contentLoaded', function() {
+        visibleCount = 2;
+        renderArticles();
+    });
 }
 
 // ============================================
@@ -453,42 +520,18 @@ function initBackToTop() {
 // ============================================
 // NEWSLETTER
 // ============================================
+// La newsletter utilise maintenant un formulaire Google Forms externe
+// Pas besoin de gestion JavaScript côté client
 
 function initNewsletter() {
-    const newsletterForms = document.querySelectorAll('.newsletter-form');
-    
-    newsletterForms.forEach(form => {
-        const input = form.querySelector('input[type="email"]');
-        const button = form.querySelector('button');
-        
-        if (!input || !button) return;
-        
-        button.addEventListener('click', function() {
-            const email = input.value.trim();
-            
-            if (email && email.includes('@')) {
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                button.disabled = true;
-                
-                setTimeout(() => {
-                    alert(`Merci ! Vous êtes inscrit avec : ${email}`);
-                    input.value = '';
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                }, 1000);
-            } else {
-                alert('Veuillez entrer une adresse email valide.');
-                input.focus();
-            }
+    // Newsletter gérée via Google Forms - s'assurer que le lien fonctionne
+    const newsletterLink = document.querySelector('.newsletter-link');
+    if (newsletterLink) {
+        newsletterLink.addEventListener('click', function(e) {
+            // Ne pas empêcher le comportement par défaut - laisser le lien s'ouvrir
+            console.log('Ouverture du formulaire Google Forms');
         });
-        
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                button.click();
-            }
-        });
-    });
+    }
 }
 
 // ============================================

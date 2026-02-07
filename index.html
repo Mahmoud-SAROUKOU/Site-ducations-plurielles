@@ -2,24 +2,83 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>Educations Plurielles - Blog Parentalité & Éducation Bienveillante</title>
     <meta name="description" content="Espace dédié aux enfants, parents et éducateurs pour une éducation bienveillante, respectueuse et plurielle.">
+    <meta name="keywords" content="éducation bienveillante, parentalité positive, droits de l'enfant, éducation plurielle">
     
-    <!-- iOS Meta Tags -->
+    <!-- Mobile & iOS Optimization -->
+    <meta name="theme-color" content="#1e3a8a" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Educations Plurielles">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
     
+    <!-- Android Chrome & Windows -->
+    <meta name="application-name" content="Educations Plurielles">
+    <meta name="msapplication-TileColor" content="#1e3a8a">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        scroll: 'scroll 30s linear infinite',
+                    },
+                    keyframes: {
+                        scroll: {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-optimizations.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="Logo.png">
     <link rel="apple-touch-icon" href="Logo.png">
+    
+    <!-- Gestionnaire de contenu dynamique -->
+    <script src="content-loader.js"></script>
+    <script src="mobile-enhancements.js" defer></script>
 </head>
 <body>
+    <!-- News Ticker -->
+    <div class="bg-red-600 text-white py-2 overflow-hidden">
+        <div class="flex news-ticker whitespace-nowrap" style="animation: scroll 30s linear infinite;">
+            <span class="mx-8">📢 Nouvel article : Comment écouter les émotions de votre enfant</span>
+            <span class="mx-8">📢 Atelier en ligne ce samedi : Éducation bienveillante en milieu africain</span>
+            <span class="mx-8">📢 Témoignage : Une mère raconte son cheminement vers une parentalité sans violence</span>
+            <span class="mx-8">📢 Ressource gratuite : Guide de prévention des violences éducatives ordinaires</span>
+        </div>
+    </div>
+    <style>
+        .news-ticker {
+            animation: scroll 30s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+
     <!-- HEADER -->
     <header class="site-header">
         <div class="header-container">
@@ -64,14 +123,16 @@
             <div class="hero-slider">
                 <div class="slider-container">
                     <div class="slider-track">
-                        <!-- Slide 1 -->
+                        <!-- Slide 1 - Enfant africain seul souriant -->
                         <div class="slider-slide active">
-                            <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80')"></div>
+                            <div class="slide-image" style="background-image: url('images/slide1.jpg')"></div>
                             <div class="slide-overlay">
                                 <div class="slide-content">
-                                    <h1 class="slide-title">Bienvenue sur <span class="highlight">Educations Plurielles</span></h1>
-                                    <p class="slide-subtitle">Un espace de réflexion, de partage et d'inspiration dédié à la parentalité bienveillante et aux droits de l'enfant.</p>
-                                    <div class="slide-buttons">
+                                    <h1 class="slide-title" style="text-align: center; font-size: 3rem; font-weight: 800;">ÉDUCATIONS PLURIELLES</h1>
+                                    <p class="slide-subtitle" style="text-align: center; font-size: 1.5rem; margin-top: 1rem;">Bienvenue sur ÉDUCATIONS PLURIELLES</p>
+                                    <p class="slide-subtitle" style="text-align: center; margin-top: 1rem;">Un espace pour comprendre nos enfants, transmettre autrement et protéger leurs droits.</p>
+                                    <p style="text-align: center; margin-top: 1rem; max-width: 900px; margin-left: auto; margin-right: auto;">Nous explorons les réalités éducatives à travers des réflexions, des témoignages, des outils pratiques et des ressources concrètes pour les parents et les éducateurs.</p>
+                                    <div class="slide-buttons" style="justify-content: center; margin-top: 2rem;">
                                         <a href="#articles" class="btn btn-primary" data-page="articles"><i class="fas fa-book-open"></i> Lire nos articles</a>
                                         <a href="#ressources" class="btn btn-secondary" data-page="ressources"><i class="fas fa-download"></i> Ressources gratuites</a>
                                     </div>
@@ -79,14 +140,16 @@
                             </div>
                         </div>
                         
-                        <!-- Slide 2 -->
+                        <!-- Slide 2 - Enfants africains en groupe à l'école -->
                         <div class="slider-slide">
-                            <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1516627145497-ae6bdebbc864?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80')"></div>
+                            <div class="slide-image" style="background-image: url('images/slide2.jpg')"></div>
                             <div class="slide-overlay">
                                 <div class="slide-content">
-                                    <h1 class="slide-title">Éducation <span class="highlight">Bienveillante</span></h1>
-                                    <p class="slide-subtitle">Accompagner chaque enfant dans son développement avec respect et écoute.</p>
-                                    <div class="slide-buttons">
+                                    <h1 class="slide-title" style="text-align: center; font-size: 3rem; font-weight: 800;">ÉDUCATIONS PLURIELLES</h1>
+                                    <p class="slide-subtitle" style="text-align: center; font-size: 1.5rem; margin-top: 1rem;">Bienvenue sur ÉDUCATIONS PLURIELLES</p>
+                                    <p class="slide-subtitle" style="text-align: center; margin-top: 1rem;">Un espace pour comprendre nos enfants, transmettre autrement et protéger leurs droits.</p>
+                                    <p style="text-align: center; margin-top: 1rem; max-width: 900px; margin-left: auto; margin-right: auto;">Nous explorons les réalités éducatives à travers des réflexions, des témoignages, des outils pratiques et des ressources concrètes pour les parents et les éducateurs.</p>
+                                    <div class="slide-buttons" style="justify-content: center; margin-top: 2rem;">
                                         <a href="#videos" class="btn btn-primary" data-page="videos"><i class="fas fa-play-circle"></i> Voir nos vidéos</a>
                                         <a href="#apropos" class="btn btn-secondary" data-page="apropos"><i class="fas fa-info-circle"></i> Notre approche</a>
                                     </div>
@@ -94,14 +157,16 @@
                             </div>
                         </div>
                         
-                        <!-- Slide 3 -->
+                        <!-- Slide 3 - Enfants africains en groupe dans une activité d'animation -->
                         <div class="slider-slide">
-                            <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80')"></div>
+                            <div class="slide-image" style="background-image: url('images/slide3.jpg')"></div>
                             <div class="slide-overlay">
                                 <div class="slide-content">
-                                    <h1 class="slide-title">Parents <span class="highlight">Accompagnés</span></h1>
-                                    <p class="slide-subtitle">Des ressources pour soutenir les parents dans leur rôle éducatif.</p>
-                                    <div class="slide-buttons">
+                                    <h1 class="slide-title" style="text-align: center; font-size: 3rem; font-weight: 800;">ÉDUCATIONS PLURIELLES</h1>
+                                    <p class="slide-subtitle" style="text-align: center; font-size: 1.5rem; margin-top: 1rem;">Bienvenue sur ÉDUCATIONS PLURIELLES</p>
+                                    <p class="slide-subtitle" style="text-align: center; margin-top: 1rem;">Un espace pour comprendre nos enfants, transmettre autrement et protéger leurs droits.</p>
+                                    <p style="text-align: center; margin-top: 1rem; max-width: 900px; margin-left: auto; margin-right: auto;">Nous explorons les réalités éducatives à travers des réflexions, des témoignages, des outils pratiques et des ressources concrètes pour les parents et les éducateurs.</p>
+                                    <div class="slide-buttons" style="justify-content: center; margin-top: 2rem;">
                                         <a href="#articles" class="btn btn-primary" data-page="articles"><i class="fas fa-newspaper"></i> Articles pratiques</a>
                                         <a href="#ressources" class="btn btn-secondary" data-page="ressources"><i class="fas fa-tools"></i> Outils concrets</a>
                                     </div>
@@ -123,69 +188,137 @@
                 </div>
             </div>
 
-            <!-- Section slogan -->
-            <div class="slogan-section">
-                <div class="section-header">
-                    <h2>Notre Philosophie en 3 Piliers</h2>
-                    <p class="section-subtitle">Une approche holistique de l'éducation qui respecte l'enfant dans sa globalité</p>
+            <!-- Four Pillars Section -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Comprendre -->
+                        <div class="bg-gradient-to-b from-blue-50 to-indigo-50 rounded-xl p-6 shadow-lg">
+                            <img src="images/comprendre.jpg" alt="Parent africain noir écoutant son enfant" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="text-xl font-bold text-blue-800 mb-2">COMPRENDRE L'ENFANT</h3>
+                            <p class="text-gray-700 mb-4">
+                                écouter ses émotions, ses silences, son attitude pour mieux répondre à ses besoins réels
+                            </p>
+                            <div class="flex flex-col space-y-2">
+                                <button class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition" onclick="window.location.hash='articles'">
+                                    Mieux comprendre l'enfant
+                                </button>
+                                <button class="border border-blue-600 text-blue-600 py-2 px-4 rounded hover:bg-blue-50 transition" onclick="window.location.hash='articles'">
+                                    Lire nos analyses
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Transmettre -->
+                        <div class="bg-gradient-to-b from-green-50 to-emerald-50 rounded-xl p-6 shadow-lg">
+                            <img src="images/transmettre.jpg" alt="Grand-père africain noir transmettant à son petit-fils" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="text-xl font-bold text-green-800 mb-2">TRANSMETTRE AVEC CONSCIENCE ET BIENVEILLANCE</h3>
+                            <p class="text-gray-700 mb-4">
+                                partager valeurs repères et outils éducatifs pour accompagner l'enfant avec intention, bienveillance et sans violence
+                            </p>
+                            <div class="flex flex-col space-y-2">
+                                <button class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition" onclick="window.location.hash='articles'">
+                                    Articles pratiques
+                                </button>
+                                <button class="border border-green-600 text-green-600 py-2 px-4 rounded hover:bg-green-50 transition" onclick="window.location.hash='ressources'">
+                                    Outils éducatifs
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Protéger -->
+                        <div class="bg-gradient-to-b from-red-50 to-rose-50 rounded-xl p-6 shadow-lg">
+                            <img src="images/proteger.jpg" alt="Parent africain noir protégeant son enfant" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="text-xl font-bold text-red-800 mb-2">PROTEGER ET SENSIBILISER</h3>
+                            <p class="text-gray-700 mb-4">
+                                Informer, prévenir et agir pour le respect des droits et du bien-être de l'enfant.
+                            </p>
+                            <div class="flex flex-col space-y-2">
+                                <button class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition" onclick="window.location.hash='articles'">
+                                    Sensibilisation & prévention
+                                </button>
+                                <button class="border border-red-600 text-red-600 py-2 px-4 rounded hover:bg-red-50 transition" onclick="window.location.hash='ressources'">
+                                    Ressources de protection
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Complice -->
+                        <div class="bg-gradient-to-b from-purple-50 to-violet-50 rounded-xl p-6 shadow-lg">
+                            <img src="images/complice.jpg" alt="Moment complice parent africain noir et enfant" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="text-xl font-bold text-purple-800 mb-2">MOMENT COMPLICE</h3>
+                            <p class="text-gray-700 mb-4">
+                                Partager des instants précieux en cuisine, aux devoirs ou dans la vie quotidienne.
+                            </p>
+                            <div class="flex flex-col space-y-2">
+                                <button class="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 transition" onclick="window.location.hash='articles'">
+                                    Témoignages
+                                </button>
+                                <button class="border border-purple-600 text-purple-600 py-2 px-4 rounded hover:bg-purple-50 transition" onclick="window.location.hash='articles'">
+                                    Activités partagées
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="slogan-container">
-                    <div class="slogan-item">
-                        <div class="slogan-image">
-                            <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Parent écoutant un enfant africain">
-                            <div class="slogan-overlay">
-                                <div class="slogan-number">01</div>
-                                <h3>COMPRENDRE</h3>
-                            </div>
-                        </div>
-                        <div class="slogan-content">
-                            <p>Prendre le temps d'écouter l'enfant, d'entendre ses silences, et de décoder ses émotions pour mieux l'accompagner.</p>
-                            <ul class="slogan-list">
-                                <li><i class="fas fa-check-circle"></i> Écoute active</li>
-                                <li><i class="fas fa-check-circle"></i> Décodage des émotions</li>
-                                <li><i class="fas fa-check-circle"></i> Observation bienveillante</li>
-                            </ul>
-                        </div>
-                    </div>
+            </section>
+
+            <!-- Notre Approche -->
+            <section class="py-16 bg-gradient-to-br from-amber-50 to-orange-50">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">NOTRE APPROCHE</h2>
                     
-                    <div class="slogan-item">
-                        <div class="slogan-image">
-                            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Personne âgée transmettant à un enfant africain">
-                            <div class="slogan-overlay">
-                                <div class="slogan-number">02</div>
-                                <h3>TRANSMETTRE</h3>
-                            </div>
-                        </div>
-                        <div class="slogan-content">
-                            <p>Partager nos cultures, nos valeurs et nos savoirs avec bienveillance pour aider l'enfant à construire son identité.</p>
-                            <ul class="slogan-list">
-                                <li><i class="fas fa-check-circle"></i> Partage culturel</li>
-                                <li><i class="fas fa-check-circle"></i> Transmission de valeurs</li>
-                                <li><i class="fas fa-check-circle"></i> Construction identitaire</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <p class="text-center text-lg text-gray-700 mb-8 max-w-3xl mx-auto">
+                        <strong>Educations Plurielles</strong> repose sur trois piliers fondamentaux :
+                    </p>
                     
-                    <div class="slogan-item">
-                        <div class="slogan-image">
-                            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Parent protégeant un enfant africain">
-                            <div class="slogan-overlay">
-                                <div class="slogan-number">03</div>
-                                <h3>PROTÉGER</h3>
-                            </div>
+                    <div class="max-w-4xl mx-auto space-y-12">
+                        <!-- Comprendre -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-2xl font-bold text-blue-700 mb-4">1. COMPRENDRE</h3>
+                            <p class="text-gray-700 mb-4">
+                                Prendre le temps de voir l'enfant tel qu'il est; unique, sensible, curieux et si souvent fragile. C'est également l'écouter parler, mais aussi, entendre ses silences, observer et connaître ses besoins, ses inquiétudes, ses peurs et ses joies.
+                            </p>
+                            <p class="text-gray-700 mb-4">
+                                Dans nos sociétés africaines où l'éducation est souvent marquée par la transmission orale et les habitudes familiales, comprendre l'enfant demande d'offrir un espace où il peut être entendu.
+                            </p>
+                            <p class="text-gray-700">
+                                Chez Éducations Plurielles, "comprendre" signifie apprendre à décoder les émotions, les comportements et les besoins des enfants pour mieux les accompagner dans leur croissance.
+                            </p>
                         </div>
-                        <div class="slogan-content">
-                            <p>Offrir un environnement sûr et respectueux, défendre la dignité et les droits de chaque enfant.</p>
-                            <ul class="slogan-list">
-                                <li><i class="fas fa-check-circle"></i> Environnement sécurisant</li>
-                                <li><i class="fas fa-check-circle"></i> Respect des droits</li>
-                                <li><i class="fas fa-check-circle"></i> Protection émotionnelle</li>
-                            </ul>
+
+                        <!-- Transmettre -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-2xl font-bold text-green-700 mb-4">2. TRANSMETTRE</h3>
+                            <p class="text-gray-700 mb-4">
+                                La transmission représente le cœur même de l'éducation. Dans le contexte africain, transmettre, c'est partager nos cultures, nos histoires, nos langues, nos valeurs, mais aussi les blessures et les traumatismes issus de l'enfance et de l'éducation reçue.
+                            </p>
+                            <p class="text-gray-700">
+                                Transmettre pour Éducations Plurielles rime avec bienveillance, respect et responsabilité. Il s'agit de:
+                                <ul class="list-disc pl-6 mt-2 space-y-1">
+                                    <li>donner sans s'imposer,</li>
+                                    <li>guider sans écraser,</li>
+                                    <li>montrer l'exemple plutôt que punir.</li>
+                                </ul>
+                            </p>
+                        </div>
+
+                        <!-- Protéger -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-2xl font-bold text-red-700 mb-4">3. PROTEGER</h3>
+                            <p class="text-gray-700 mb-4">
+                                La protection est un volet essentiel de l'éducation dans toutes les cultures. Elle consiste en général à offrir à l'enfant un environnement à la fois sûr, aimant et respectueux, mais aussi à veiller à son bien-être physique, émotionnel et psychologique avec pour références, les droits des enfants.
+                            </p>
+                            <p class="text-gray-700 mb-4">
+                                Dans un monde qui va de plus en plus vite, les défis se révèlent chaque jour plus nombreux (violences éducatives à la fois psychologiques et physiques, la pression sociale, le développement numérique et ses dangers, les inégalités scolaires et/ou basées sur le genre etc).
+                            </p>
+                            <p class="text-gray-700">
+                                Pour Éducations Plurielles, protéger, c'est défendre la dignité et tous les droits de l'enfant, prévenir les violences, encourager l'écoute et soutenir les familles avec des outils à la fois concrets et efficaces.
+                            </p>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Présentation -->
             <div class="presentation-section">
@@ -200,7 +333,7 @@
                 
                 <div class="presentation-content">
                     <div class="presentation-image">
-                        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Blog parentalité et éducation">
+                        <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Famille africaine - Éducation et partage">
                         <div class="image-overlay">
                             <span>Espace de réflexion et de partage</span>
                         </div>
@@ -238,7 +371,7 @@
                 <div class="articles-preview">
                     <article class="article-preview">
                         <div class="article-preview-image">
-                            <img src="https://images.unsplash.com/photo-1516627145497-ae6bdebbc864?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Parentalité positive">
+                            <img src="images/image1.jpg" alt="Parentalité positive - Maman africaine et bébé">
                             <div class="article-preview-category">Parentalité</div>
                         </div>
                         <div class="article-preview-content">
@@ -254,7 +387,7 @@
                     
                     <article class="article-preview">
                         <div class="article-preview-image">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Droits des enfants africains">
+                            <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Droits des enfants - Symbole de justice">
                             <div class="article-preview-category category-droits">Droits</div>
                         </div>
                         <div class="article-preview-content">
@@ -270,7 +403,7 @@
                     
                     <article class="article-preview">
                         <div class="article-preview-image">
-                            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Éducation Montessori">
+                            <img src="images/image2.jpg" alt="Éducation - Enfants africains lisant ensemble">
                             <div class="article-preview-category category-education">Éducation</div>
                         </div>
                         <div class="article-preview-content">
@@ -296,14 +429,13 @@
                     <div class="newsletter-content">
                         <h3><i class="fas fa-envelope-open-text"></i> Restez informé</h3>
                         <p>Recevez chaque mois nos dernières ressources, articles et actualités sur l'éducation bienveillante.</p>
-                        <div class="newsletter-form">
-                            <input type="email" placeholder="Votre adresse email" class="newsletter-input">
-                            <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> S'inscrire</button>
+                        <div class="newsletter-cta" style="position: relative; z-index: 100;">
+                            <button type="button" class="btn btn-primary" style="position: relative; z-index: 101;" onclick="window.location.href='https://docs.google.com/forms/d/e/1FAIpQLSeJZMjZv0iW0fW2_ITTCqKIbGSG5BW9H_cakyWkcjUqJfkuIA/viewform'"><i class="fas fa-paper-plane"></i> S'inscrire à la newsletter</button>
                         </div>
                         <p class="newsletter-note"><small>Nous respectons votre vie privée. Désinscription possible à tout moment.</small></p>
                     </div>
                     <div class="newsletter-image">
-                        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Newsletter éducation">
+                        <img src="images/image3.jpg" alt="Restez informé - Service professionnel">
                     </div>
                 </div>
             </div>
@@ -313,9 +445,9 @@
         <section id="articles" class="page-content" data-page="articles">
             <div class="page-header-section articles-header">
                 <div class="header-images-grid">
-                    <div class="header-image" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
-                    <div class="header-image" style="background-image: url('https://images.unsplash.com/photo-1516627145497-ae6bdebbc864?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
-                    <div class="header-image" style="background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="header-image" style="background-image: url('images/image1.jpg')"></div>
+                    <div class="header-image" style="background-image: url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="header-image" style="background-image: url('images/image2.jpg')"></div>
                 </div>
                 <div class="page-header-overlay">
                     <h1><i class="fas fa-newspaper"></i> Articles et Publications</h1>
@@ -357,42 +489,11 @@
         <!-- SECTION VIDÉOS -->
         <section id="videos" class="page-content" data-page="videos">
             <div class="page-header-section videos-header">
-                <div class="video-slider">
-                    <div class="video-slide active">
-                        <div class="video-preview" style="background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80')">
-                            <div class="video-play-btn">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                        <div class="video-info">
-                            <h3>Pédagogie Montessori</h3>
-                            <p>Découvrez les principes fondamentaux de la méthode Montessori</p>
-                        </div>
-                    </div>
-                    
-                    <div class="video-slide">
-                        <div class="video-preview" style="background-image: url('https://images.unsplash.com/photo-1516627145497-ae6bdebbc864?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80')">
-                            <div class="video-play-btn">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                        <div class="video-info">
-                            <h3>Parentalité Positive</h3>
-                            <p>Des techniques concrètes pour une éducation bienveillante</p>
-                        </div>
-                    </div>
-                    
-                    <div class="video-slide">
-                        <div class="video-preview" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80')">
-                            <div class="video-play-btn">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                        <div class="video-info">
-                            <h3>Développement de l'Enfant</h3>
-                            <p>Comprendre les étapes clés du développement</p>
-                        </div>
-                    </div>
+                <div class="header-video-container" style="position: relative; width: 100%; height: 400px; overflow: hidden;">
+                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                        <source src="videos/education-afrique.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la lecture de vidéos.
+                    </video>
                 </div>
                 <div class="page-header-overlay">
                     <h1><i class="fas fa-play-circle"></i> Vidéos éducatives</h1>
@@ -430,19 +531,19 @@
         <section id="ressources" class="page-content" data-page="ressources">
             <div class="page-header-section ressources-header">
                 <div class="resources-images-grid">
-                    <div class="resource-image-card" style="background-image: url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <div class="resource-image-card" style="background-image: url('images/ressource1.jpg')">
                         <div class="resource-image-label">
                             <i class="fas fa-file-pdf"></i>
                             <span>Fiches pédagogiques</span>
                         </div>
                     </div>
-                    <div class="resource-image-card" style="background-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <div class="resource-image-card" style="background-image: url('images/ressource2.jpg')">
                         <div class="resource-image-label">
                             <i class="fas fa-book-open"></i>
                             <span>Guides pratiques</span>
                         </div>
                     </div>
-                    <div class="resource-image-card" style="background-image: url('https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                    <div class="resource-image-card" style="background-image: url('images/ressource3.jpg')">
                         <div class="resource-image-label">
                             <i class="fas fa-tools"></i>
                             <span>Outils concrets</span>
@@ -479,9 +580,9 @@
         <section id="apropos" class="page-content" data-page="apropos">
             <div class="page-header-section apropos-header">
                 <div class="apropos-images-showcase">
-                    <div class="showcase-image main-image" style="background-image: url('https://images.unsplash.com/photo-1516627145497-ae6bdebbc864?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')"></div>
-                    <div class="showcase-image secondary-image" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
-                    <div class="showcase-image secondary-image" style="background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="showcase-image main-image" style="background-image: url('images/apropos1.jpg')"></div>
+                    <div class="showcase-image secondary-image" style="background-image: url('images/apropos2.jpg')"></div>
+                    <div class="showcase-image secondary-image" style="background-image: url('images/apropos3.jpg')"></div>
                 </div>
                 <div class="page-header-overlay">
                     <h1><i class="fas fa-info-circle"></i> À propos</h1>
@@ -495,43 +596,52 @@
                         <div class="mission-icon">
                             <i class="fas fa-bullseye"></i>
                         </div>
-                        <h3>Notre mission</h3>
-                        <p>Educations Plurielles a pour objectif de faire connaître et promouvoir la diversité des approches éducatives. Nous croyons en une éducation respectueuse du rythme de chacun, adaptée aux différents profils d'apprentissage et ouverte sur le monde.</p>
-                        <p>Notre plateforme vise à rassembler les éducateurs, les parents et tous les acteurs de l'éducation autour d'une vision plurielle et enrichissante de l'apprentissage.</p>
+                        <h3><strong>Notre mission</strong></h3>
+                        <p>Éducations Plurielles est un projet éditorial et de sensibilisation dédié à la parentalité, à l'éducation et à la protection des droits de l'enfant. Notre mission s'inscrit dans le sens de questionner les pratiques éducatives, d'ouvrir le dialogue, mais aussi de proposer des ressources accessibles dans le but d'aider les parents, les éducateurs, mais aussi les citoyens à mieux comprendre les enfants, et les divers enjeux en lien avec eux.</p>
+                        <p>À travers des articles, des vidéos, des témoignages et des outils pratiques, Éducations Plurielles a pour but de:</p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; margin: 1rem 0;">
+                            <li>comprendre les réalités de l'enfance, les comportements et les blessures invisibles,</li>
+                            <li>transmettre des approches éducatives respectueuses, conscientes et adaptées aux contextes culturels,</li>
+                            <li>protéger l'enfant en valorisant ses droits, son bien-être émotionnel et sa dignité.</li>
+                        </ul>
+                        <p>Le projet accorde une attention particulière aux réalités africaines, souvent marquées par des traditions éducatives fortes, mais aussi impactées par des défis sociaux, familiaux et émotionnels souvent ignorés mais présents.</p>
                     </div>
                     
                     <div class="team card">
                         <div class="team-icon">
                             <i class="fas fa-users"></i>
                         </div>
-                        <h3>Notre équipe</h3>
-                        <p>Nous sommes un collectif d'éducateurs, de pédagogues, de chercheurs et de parents passionnés par l'éducation alternative. Chacun de nos membres apporte son expertise spécifique dans différentes approches pédagogiques.</p>
-                        <p>Notre équipe interdisciplinaire travaille à créer des ressources accessibles et de qualité pour tous ceux qui s'intéressent à l'éducation sous toutes ses formes.</p>
+                        <h3><strong>Qui porte Éducations Plurielles?</strong></h3>
+                        <p style="font-size: 1.1rem; line-height: 1.8;">Éducations Plurielles est porté par <strong style="font-size: 1.2rem; color: #1e3a8a; font-weight: 800;">Marthe Carmelle OKOUMASSOUN</strong>, journaliste-communicatrice et porteuse de projet engagée sur les questions de l'enfance, de l'éducation et de la parentalité.</p>
+                        <p>Le projet est né d'un parcours personnel marqué par une enfance complexe, des expériences de violence éducative, un manque de repères affectifs et un long chemin de compréhension et de reconstruction.</p>
+                        <p>Cette expérience, loin d'être isolée, fait écho à celle de nombreux enfants et adultes aujourd'hui. Éducations Plurielles est ainsi né d'un besoin profond: briser certains silences, questionner les héritages éducatifs et proposer des alternatives plus respectueuses et plus protectrices de l'enfant.</p>
+                        <p style="margin-top: 0.5rem;">Selon les thématiques abordées, le projet s'appuie également sur des contributions ponctuelles d'éducateurs, de parents, d'enfants et de professionnels sensibles aux enjeux de l'enfance.</p>
                     </div>
                     
                     <div class="values card">
                         <div class="values-icon">
                             <i class="fas fa-heart"></i>
                         </div>
-                        <h3>Nos valeurs</h3>
+                        <h3><strong>Nos valeurs</strong></h3>
                         <ul class="values-list">
-                            <li><strong>Respect</strong> du rythme et des besoins de chaque individu</li>
-                            <li><strong>Ouverture</strong> à différentes approches pédagogiques</li>
-                            <li><strong>Partage</strong> des connaissances et expériences</li>
-                            <li><strong>Innovation</strong> dans les pratiques éducatives</li>
-                            <li><strong>Accessibilité</strong> des ressources pour tous</li>
-                            <li><strong>Collaboration</strong> entre tous les acteurs de l'éducation</li>
+                            <li>Écoute et compréhension de l'enfant comme point de départ de toute éducation</li>
+                            <li>Respect du rythme et de l'histoire personnelle de chaque enfant</li>
+                            <li>Transmission consciente, sans violence ni humiliation</li>
+                            <li>Protection de l'enfance et défense des droits fondamentaux de l'enfant</li>
+                            <li>Ouverture culturelle, dialogue entre traditions et pratiques éducatives modernes</li>
+                            <li>Responsabilité collective: éduquer est l'affaire de tous</li>
                         </ul>
                     </div>
                 </div>
                 
                 <div class="history section-gradient gradient-accent">
                     <h2><i class="fas fa-history"></i> Notre histoire</h2>
-                    <p>Fondé en 2023 par un groupe d'éducateurs et de parents, Educations Plurielles est né du constat que de nombreuses approches pédagogiques alternatives méritaient d'être mieux connues et accessibles au grand public.</p>
-                    <p>De démarche locale au départ, notre initiative a rapidement pris de l'ampleur pour devenir une référence en matière de ressources sur les pédagogies alternatives. Aujourd'hui, nous accompagnons des milliers de professionnels et de familles dans leur découverte des différentes approches éducatives.</p>
+                    <p>Éducations Plurielles est né d'un constat simple mais préoccupant: de nombreux enfants grandissent sans espaces d'écoute, dans des environnements où les violences éducatives, les incompréhensions et le silence sont encore banalisés.</p>
+                    <p>D'abord pensé comme un espace personnel de réflexion et de partage, le projet s'est progressivement transformé en une plateforme de sensibilisation destinée à un public plus large.</p>
+                    <p style="margin-top: 0.5rem;">Aujourd'hui, Éducations Plurielles évolue comme un projet en construction, ouvert aux échanges, aux témoignages et aux collaborations, avec l'ambition de contribuer, à son échelle, à une éducation plus humaine et plus protectrice.</p>
                     <div class="stats">
                         <div class="stat">
-                            <h3>2023</h3>
+                            <h3>2015</h3>
                             <p>Année de création</p>
                         </div>
                         <div class="stat">
@@ -542,15 +652,6 @@
                             <h3>15K+</h3>
                             <p>visiteurs mensuels</p>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="contact-simplified card">
-                    <h3><i class="fas fa-envelope"></i> Contact</h3>
-                    <div class="contact-info-minimal">
-                        <p><i class="fas fa-envelope"></i> contact@educationsplurielles.org</p>
-                        <p><i class="fas fa-phone"></i> +229 01 66 00 98 49</p>
-                        <p><i class="fas fa-map-marker-alt"></i> Cotonou / Calavi Bénin</p>
                     </div>
                 </div>
             </div>
@@ -598,15 +699,15 @@
                 <div class="footer-section">
                     <h4><i class="fas fa-envelope"></i> Contact</h4>
                     <ul class="footer-contact">
-                        <li><i class="fas fa-envelope"></i> contact@educationsplurielles.org</li>
+                        <li><i class="fas fa-envelope"></i> educationsplurielleafrique@gmail.com</li>
                         <li><i class="fas fa-phone"></i> +229 01 66 00 98 49</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Cotonou / Calavi Bénin</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Cotonou, Bénin</li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 Educations Plurielles - Tous droits réservés</p>
+                <p>&copy; 2026 Éducations Plurielles - Tous droits réservés</p>
                 <p class="footer-links">
                     <a href="#">Mentions légales</a> | 
                     <a href="#">Politique de confidentialité</a> | 
@@ -636,7 +737,7 @@
                     category: "parentalite",
                     date: "15 décembre 2023",
                     readTime: "8 min",
-                    image: "https://images.unsplash.com/photo-1516627145497-ae6bdebbc864?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    image: "images/image1.jpg",
                     tags: ["Bienveillance", "Éducation", "Famille"]
                 },
                 {
@@ -646,7 +747,7 @@
                     category: "droits",
                     date: "10 décembre 2023",
                     readTime: "10 min",
-                    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                     tags: ["Droits", "Protection", "Respect"]
                 },
                 {
@@ -656,7 +757,7 @@
                     category: "protection",
                     date: "5 décembre 2023",
                     readTime: "12 min",
-                    image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                     tags: ["Non-violence", "Sécurité", "Prévention"]
                 },
                 {
@@ -666,7 +767,7 @@
                     category: "education",
                     date: "28 novembre 2023",
                     readTime: "9 min",
-                    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    image: "images/image2.jpg",
                     tags: ["Montessori", "Pédagogie", "Apprentissage"]
                 },
                 {
@@ -676,7 +777,7 @@
                     category: "developpement",
                     date: "20 novembre 2023",
                     readTime: "11 min",
-                    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    image: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                     tags: ["Développement", "Émotions", "Petite enfance"]
                 },
                 {
@@ -686,7 +787,7 @@
                     category: "sante",
                     date: "15 novembre 2023",
                     readTime: "7 min",
-                    image: "https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    image: "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                     tags: ["Santé", "Nutrition", "Bien-être"]
                 }
             ],
@@ -699,7 +800,7 @@
                     duration: "15:23",
                     views: "2.5K",
                     date: "Il y a 2 semaines",
-                    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
                 },
                 {
                     id: 2,
@@ -708,7 +809,7 @@
                     duration: "25:45",
                     views: "1.8K",
                     date: "Il y a 1 mois",
-                    image: "https://images.unsplash.com/photo-1516627145497-ae6bdebbc864?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                    image: "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
                 },
                 {
                     id: 3,
@@ -717,7 +818,7 @@
                     duration: "20:12",
                     views: "3.2K",
                     date: "Il y a 3 semaines",
-                    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                    image: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
                 },
                 {
                     id: 4,
@@ -726,7 +827,7 @@
                     duration: "18:30",
                     views: "1.2K",
                     date: "Il y a 2 mois",
-                    image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
                 }
             ],
 
@@ -766,151 +867,60 @@
     </script>
 
     <!-- SCRIPT iOS CORRIGÉ -->
+    <!-- SCRIPT iOS CORRIGÉ -->
     <script src="script.js"></script>
-    <!-- SCRIPT D'URGENCE POUR iOS -->
-<script>
-// Correction d'urgence pour la navigation iOS
-if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-    console.log('iOS détecté - Application script d\'urgence');
     
-    // Attendre que tout soit chargé
-    setTimeout(function() {
-        // 1. Gestion simple des clics
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const href = this.getAttribute('href');
-                if (href) {
-                    const pageId = href.substring(1);
-                    console.log('Navigation iOS vers:', pageId);
-                    
-                    // Cacher toutes les pages
-                    document.querySelectorAll('.page-content').forEach(page => {
-                        page.classList.remove('active');
-                        page.style.display = 'none';
-                    });
-                    
-                    // Afficher la page demandée
-                    const targetPage = document.getElementById(pageId);
-                    if (targetPage) {
-                        targetPage.classList.add('active');
-                        targetPage.style.display = 'block';
-                        
-                        // Scroll en haut
-                        window.scrollTo(0, 0);
-                        
-                        // Mettre à jour le lien actif
-                        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                        this.classList.add('active');
-                    }
-                }
-            });
-        });
+    <!-- SCRIPT D'INITIALISATION UNIVERSEL -->
+    <script>
+    // Attendre le chargement complet
+    window.addEventListener('DOMContentLoaded', function() {
+        console.log('Site chargé - Initialisation...');
         
-        // 2. Afficher l'accueil par défaut
-        const accueilPage = document.getElementById('accueil');
-        if (accueilPage) {
-            accueilPage.classList.add('active');
-            accueilPage.style.display = 'block';
-        }
-        
-        console.log('Script d\'urgence iOS appliqué');
-    }, 500);
-}
-</script>
-<!-- SCRIPT DE FALLBACK ABSOLU -->
-<script>
-// Ce script garantit que la navigation fonctionne TOUJOURS
-(function() {
-    console.log('Script de fallback chargé');
-    
-    // Attendre que le DOM soit prêt
-    setTimeout(function() {
-        // Vérifier si la navigation fonctionne
-        const hasActivePage = document.querySelector('.page-content.active') !== null;
-        const hasWorkingLinks = () => {
-            let working = false;
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    working = true;
-                });
-            });
-            return working;
-        };
-        
-        if (!hasActivePage) {
-            console.log('Fallback: Forcer l\'accueil');
+        // Forcer l'affichage de la page d'accueil au démarrage
+        setTimeout(function() {
+            const hash = window.location.hash.replace('#', '') || 'accueil';
+            const allPages = ['accueil', 'articles', 'videos', 'ressources', 'apropos'];
             
-            // 1. Afficher l'accueil
-            const accueil = document.getElementById('accueil');
-            if (accueil) {
-                // Cacher toutes les pages
-                document.querySelectorAll('.page-content').forEach(page => {
+            // Cacher toutes les pages
+            allPages.forEach(function(pageId) {
+                const page = document.getElementById(pageId);
+                if (page) {
                     page.style.display = 'none';
                     page.classList.remove('active');
-                });
-                
-                // Afficher l'accueil
-                accueil.style.display = 'block';
-                accueil.classList.add('active');
-                
-                // Activer le lien accueil
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#accueil') {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        }
-        
-        // Navigation simple de secours
-        document.querySelectorAll('.nav-link').forEach(link => {
-            // Supprimer les anciens écouteurs
-            const newLink = link.cloneNode(true);
-            link.parentNode.replaceChild(newLink, link);
-            
-            // Nouvel écouteur
-            newLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const href = this.getAttribute('href');
-                if (href && href.startsWith('#')) {
-                    const pageId = href.substring(1);
-                    
-                    // Cacher toutes les pages
-                    document.querySelectorAll('.page-content').forEach(page => {
-                        page.style.display = 'none';
-                        page.classList.remove('active');
-                    });
-                    
-                    // Afficher la page demandée
-                    const page = document.getElementById(pageId);
-                    if (page) {
-                        page.style.display = 'block';
-                        page.classList.add('active');
-                        
-                        // Scroll en haut
-                        window.scrollTo(0, 0);
-                        
-                        // Mettre à jour le lien actif
-                        document.querySelectorAll('.nav-link').forEach(l => {
-                            l.classList.remove('active');
-                        });
-                        this.classList.add('active');
-                        
-                        console.log('Fallback navigation vers:', pageId);
-                    }
                 }
             });
-        });
-        
-        console.log('Script de fallback prêt');
-    }, 1000);
-})();
-</script>
+            
+            // Afficher la page courante
+            const currentPage = document.getElementById(hash);
+            if (currentPage) {
+                currentPage.style.display = 'block';
+                currentPage.style.visibility = 'visible';
+                currentPage.classList.add('active');
+                
+                // Forcer l'affichage des éléments internes
+                const headers = currentPage.querySelectorAll('.page-header-section, .page-header-overlay');
+                headers.forEach(function(el) {
+                    el.style.display = 'block';
+                    el.style.visibility = 'visible';
+                });
+                
+                const grids = currentPage.querySelectorAll('.header-images-grid, .resources-images-grid, .apropos-images-showcase');
+                grids.forEach(function(grid) {
+                    grid.style.display = 'grid';
+                });
+            } else {
+                // Par défaut, afficher l'accueil
+                const accueil = document.getElementById('accueil');
+                if (accueil) {
+                    accueil.style.display = 'block';
+                    accueil.style.visibility = 'visible';
+                    accueil.classList.add('active');
+                }
+            }
+            
+            console.log('Page affichée:', hash);
+        }, 100);
+    });
+    </script>
 </body>
 </html>
